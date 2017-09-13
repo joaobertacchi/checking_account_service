@@ -9,8 +9,14 @@
 
 (deftest a-test
 
-  (testing "Test GET request to /hello?name={a-name} returns expected response"
-    (let [response (app (-> (mock/request :get  "/api/plus?x=1&y=2")))
+  (testing "Test POST request to /api/v1/operation returns the id of the created operation"
+    (let [operation {:account_id 1
+                    :description "Purchase on Amazon"
+                    :amount 3.34
+                    :date "2017-10-16"}
+          response (app (-> (mock/request :post  "/api/v1/operations")
+                            (mock/content-type "application/json")
+                            (mock/body  (cheshire/generate-string operation))))
           body     (parse-body (:body response))]
       (is (= (:status response) 200))
-      (is (= (:result body) 3)))))
+      (is (= body 1)))))

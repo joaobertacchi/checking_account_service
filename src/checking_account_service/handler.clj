@@ -3,12 +3,11 @@
             [ring.util.http-response :refer :all]
             [schema.core :as s]))
 
-(s/defschema Pizza
-  {:name s/Str
-   (s/optional-key :description) s/Str
-   :size (s/enum :L :M :S)
-   :origin {:country (s/enum :FI :PO)
-            :city s/Str}})
+(s/defschema Operation
+  {:account_id Long
+  (s/optional-key :description) s/Str
+  :amount s/Num
+  :date s/Str})
 
 (def app
   (api
@@ -19,17 +18,11 @@
                     :description "Compojure Api example"}
              :tags [{:name "api", :description "some apis"}]}}}
 
-    (context "/api" []
+    (context "/api/v1" []
       :tags ["api"]
 
-      (GET "/plus" []
-        :return {:result Long}
-        :query-params [x :- Long, y :- Long]
-        :summary "adds two numbers together"
-        (ok {:result (+ x y)}))
-
-      (POST "/echo" []
-        :return Pizza
-        :body [pizza Pizza]
-        :summary "echoes a Pizza"
-        (ok pizza)))))
+      (POST "/operations" []
+        :return Long
+        :body [operation Operation]
+        :summary "add an operation to a given checking account"
+        (ok 1)))))
