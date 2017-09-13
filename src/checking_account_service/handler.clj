@@ -1,7 +1,8 @@
 (ns checking_account_service.handler
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [checking_account_service.models.operation :as Operation]))
 
 (s/defschema Operation
   {:account_id Long
@@ -25,4 +26,4 @@
         :return Long
         :body [operation Operation]
         :summary "add an operation to a given checking account"
-        (ok 1)))))
+        (ok (Operation/save! operation))))))
