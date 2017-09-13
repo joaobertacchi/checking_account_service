@@ -5,7 +5,7 @@
             [checking_account_service.models.operation :as Operation]))
 
 (s/defschema Operation
-  {:account_id Long
+  {:account_number Long
   (s/optional-key :description) s/Str
   :amount s/Num
   :date s/Str})

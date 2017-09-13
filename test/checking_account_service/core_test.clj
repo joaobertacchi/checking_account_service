@@ -10,7 +10,7 @@
 (deftest a-test
 
   (testing "Test POST request to /api/v1/operation returns the id of the created operation"
-    (let [operation {:account_id 1
+    (let [operation {:account_number 1
                     :description "Purchase on Amazon"
                     :amount 3.34
                     :date "2017-10-16"}
