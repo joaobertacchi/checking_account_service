@@ -5,8 +5,9 @@
             [checking_account_service.models.operation :as Operation]))
 
 (s/defschema Operation
-  {:account_number Long
-  (s/optional-key :description) s/Str
+  {(s/optional-key :id) Long
+  (s/optional-key :account_number) Long
+  :description s/Str
   :amount s/Num
   :date s/Str})
 
@@ -23,7 +24,7 @@
       :tags ["api"]
 
       (POST "/operations" []
-        :return Long
+        :return Operation
         :body [operation Operation]
         :summary "add an operation to a given checking account"
-        (ok (Operation/save! operation))))))
+        (ok (Operation/save! operation (:account_number operation)))))))

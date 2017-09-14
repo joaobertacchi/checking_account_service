@@ -19,4 +19,4 @@
                             (mock/body  (cheshire/generate-string operation))))
           body     (parse-body (:body response))]
       (is (= (:status response) 200))
-      (is (= body 1)))))
+      (is (= body (assoc operation :id 1))))))
