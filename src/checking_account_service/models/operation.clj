@@ -10,7 +10,14 @@
 (defn wrapp_account_number [operation account_number]
   (assoc operation :account_number account_number))
 
+(defn operations_per_account [account_number]
+  (filter (fn [operation] (= account_number (:account_number operation))) @operations_storage))
+
+(defn balance [account_number]
+  (reduce +
+    (map :amount (operations_per_account account_number))))
+
 (defn save! [operation account_number]
   (let [wrapped_operation (wrapp_operation_id (wrapp_account_number operation account_number))]
-    (swap! operations_storage conj [wrapped_operation])
+    (swap! operations_storage conj wrapped_operation)
     wrapped_operation))

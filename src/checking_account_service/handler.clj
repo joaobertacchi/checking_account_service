@@ -33,8 +33,13 @@
         (context "/:account_number" []
           :path-params [account_number :- s/Int]
 
-            (POST "/operations" []
-              :return OperationOut
-              :body [operation OperationIn]
-              :summary "add an operation to a given checking account"
-              (ok (Operation/save! operation account_number))))))))
+          (GET "/balance" []
+            :return s/Num
+            :summary "Get the current balance for the given checking account"
+            (ok (Operation/balance account_number)))
+
+          (POST "/operations" []
+            :return OperationOut
+            :body [operation OperationIn]
+            :summary "add an operation to a given checking account"
+            (ok (Operation/save! operation account_number))))))))
