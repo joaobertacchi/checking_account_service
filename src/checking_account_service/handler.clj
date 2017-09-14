@@ -4,9 +4,14 @@
             [schema.core :as s]
             [checking_account_service.models.operation :as Operation]))
 
-(s/defschema Operation
-  {(s/optional-key :id) Long
-  (s/optional-key :account_number) Long
+(s/defschema OperationIn
+  {:description s/Str
+  :amount s/Num
+  :date s/Str})
+
+(s/defschema OperationOut
+  {:id Long
+  :account_number Long
   :description s/Str
   :amount s/Num
   :date s/Str})
@@ -23,8 +28,13 @@
     (context "/api/v1" []
       :tags ["api"]
 
-      (POST "/operations" []
-        :return Operation
-        :body [operation Operation]
-        :summary "add an operation to a given checking account"
-        (ok (Operation/save! operation (:account_number operation)))))))
+      (context "/accounts" []
+
+        (context "/:account_number" []
+          :path-params [account_number :- s/Int]
+
+            (POST "/operations" []
+              :return OperationOut
+              :body [operation OperationIn]
+              :summary "add an operation to a given checking account"
+              (ok (Operation/save! operation account_number))))))))

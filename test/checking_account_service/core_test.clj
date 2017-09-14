@@ -9,14 +9,13 @@
 
 (deftest a-test
 
-  (testing "Test POST request to /api/v1/operation returns the id of the created operation"
-    (let [operation {:account_number 1
-                    :description "Purchase on Amazon"
+  (testing "Test POST request to /api/v1/accounts/:id/operation returns the id of the created operation"
+    (let [operation {:description "Purchase on Amazon"
                     :amount 3.34
                     :date "2017-10-16"}
-          response (app (-> (mock/request :post  "/api/v1/operations")
+          response (app (-> (mock/request :post  "/api/v1/accounts/10000/operations")
                             (mock/content-type "application/json")
                             (mock/body  (cheshire/generate-string operation))))
           body     (parse-body (:body response))]
       (is (= (:status response) 200))
-      (is (= body (assoc operation :id 1))))))
+      (is (= body (assoc operation :id 1 :account_number 10000))))))
