@@ -6,4 +6,8 @@
     (contains? @accounts_storage account_number))
 
 (defn insert! [account_number]
-    (swap! accounts_storage conj account_number))
+    (if (> account_number 0)
+        (do
+            (swap! accounts_storage conj account_number)
+            true)
+        false))

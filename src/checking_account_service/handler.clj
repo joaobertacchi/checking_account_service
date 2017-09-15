@@ -24,8 +24,9 @@
   })
 
 (defn create-operation-handler [account_number operation]
-  (Account/insert! account_number)
-  (ok (Operation/save! operation account_number)))
+  (if (Account/insert! account_number)
+    (ok (Operation/save! operation account_number))
+    (bad-request {:errors {:account_number "Account number is not valid"}})))
 
 (defn get-balance-handler [account_number]
   (if (Account/is_valid? account_number)
