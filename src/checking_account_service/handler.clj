@@ -23,6 +23,25 @@
     :balance s/Num
   })
 
+(s/defschema OperationStatement
+  {:description s/Str
+  :amount s/Num})
+
+(s/defschema DayStatement
+  {
+    :date s/Str
+    :operations [OperationStatement]
+    :balance Long
+  })
+
+(s/defschema Statement
+  {
+    :account_number Long
+    :start_date s/Str
+    :end_date s/Str
+    :day_statements [DayStatement]
+  })
+
 (defn create-operation-handler [account_number operation]
   (if (Account/insert! account_number)
     (ok (Operation/save! operation account_number))
@@ -33,6 +52,9 @@
       (ok {:account_number account_number
            :balance (Operation/balance account_number)})
       (bad-request {:errors {:account_number "Account number is not valid"}})))
+
+(defn get-statement-handler [account_number start_date end_date]
+  (bad-request {:errors {:error "Undefined endpoint"}}))
 
 (def app
   (api
@@ -60,4 +82,10 @@
             :return OperationOut
             :body [operation OperationIn]
             :summary "Add an operation to a given checking account"
-            (create-operation-handler account_number operation)))))))
+            (create-operation-handler account_number operation))
+            
+          (GET "/statement" []
+            :return {:result Statement}
+            :query-params [start_date :- s/Str, end_date :- s/Str]
+            :summary "Returns the bank statement of an account given a period of dates"
+            (get-statement-handler account_number start_date end_date)))))))
