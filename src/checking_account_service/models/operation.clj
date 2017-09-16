@@ -6,7 +6,7 @@
 ;            [cheshire.generate :as generate]
             ))
 
-; (def date-formatter (f/formatters :date))
+;(def date-formatter (f/formatters :date))
 
 ;(generate/add-encoder
 ;  org.joda.time.DateTime
@@ -54,11 +54,10 @@
     (reduce_to_balance)
     ))
 
-(defn statement [account_number start_date end_date]
-  (-> @operations_storage
-    (filter_by_account account_number)
-    (filter_by_interval start_date end_date)
-    ))
+(defn all
+  "Return all operations stored in db"
+  []
+  @operations_storage)
 
 (defn save! [operation account_number]
   (let [wrapped_operation (wrapp_operation_id (wrapp_account_number operation account_number))]

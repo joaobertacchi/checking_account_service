@@ -4,7 +4,8 @@
             [schema.core :as s]
             [clj-time.core :as t]
             [checking_account_service.models.operation :as Operation]
-            [checking_account_service.models.account :as Account]))
+            [checking_account_service.models.account :as Account]
+            [checking_account_service.models.statement :as Statement]))
 
 (s/defschema OperationIn
   {:description s/Str
@@ -56,8 +57,9 @@
 
 (defn get-statement-handler [account_number start_date end_date]
   (if (Account/is_valid? account_number)
-    (ok {:account_number account_number
-        :statement (Operation/statement account_number start_date (t/plus end_date (t/days 1)))})
+    (let [stmt (Statement/statement account_number start_date end_date)]
+      (println stmt)
+      (ok stmt))
     (bad-request {:errors {:account_number "Account number is not valid"}})))
 
 (def app
