@@ -8,14 +8,14 @@
 (s/defschema OperationIn
   {:description s/Str
   :amount s/Num
-  :date s/Str})
+  :date org.joda.time.DateTime})
 
 (s/defschema OperationOut
   {:id Long
   :account_number Long
   :description s/Str
   :amount s/Num
-  :date s/Str})
+  :date org.joda.time.DateTime})
 
 (s/defschema Balance
   {
@@ -86,6 +86,6 @@
             
           (GET "/statement" []
             :return Statement
-            :query-params [start_date :- s/Str, end_date :- s/Str]
+            :query-params [start_date :- org.joda.time.DateTime, end_date :- org.joda.time.DateTime]
             :summary "Returns the bank statement of an account given a period of dates"
             (get-statement-handler account_number start_date end_date)))))))
