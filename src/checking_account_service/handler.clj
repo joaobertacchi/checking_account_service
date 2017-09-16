@@ -2,6 +2,7 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
+            [clj-time.core :as t]
             [checking_account_service.models.operation :as Operation]
             [checking_account_service.models.account :as Account]))
 
@@ -54,7 +55,10 @@
       (bad-request {:errors {:account_number "Account number is not valid"}})))
 
 (defn get-statement-handler [account_number start_date end_date]
-  (bad-request {:errors {:error "Undefined endpoint"}}))
+  (if (Account/is_valid? account_number)
+    (ok {:account_number account_number
+        :statement (Operation/statement account_number start_date (t/plus end_date (t/days 1)))})
+    (bad-request {:errors {:account_number "Account number is not valid"}})))
 
 (def app
   (api
@@ -85,7 +89,7 @@
             (create-operation-handler account_number operation))
             
           (GET "/statement" []
-            :return Statement
+;            :return Statement
             :query-params [start_date :- org.joda.time.DateTime, end_date :- org.joda.time.DateTime]
             :summary "Returns the bank statement of an account given a period of dates"
             (get-statement-handler account_number start_date end_date)))))))
