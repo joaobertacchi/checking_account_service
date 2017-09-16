@@ -85,7 +85,7 @@
             (create-operation-handler account_number operation))
             
           (GET "/statement" []
-            :return {:result Statement}
+            :return Statement
             :query-params [start_date :- s/Str, end_date :- s/Str]
             :summary "Returns the bank statement of an account given a period of dates"
             (get-statement-handler account_number start_date end_date)))))))
