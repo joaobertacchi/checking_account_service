@@ -58,7 +58,6 @@
 (defn get-statement-handler [account_number start_date end_date]
   (if (Account/is_valid? account_number)
     (let [stmt (Statement/statement account_number start_date end_date)]
-      (println stmt)
       (ok stmt))
     (bad-request {:errors {:account_number "Account number is not valid"}})))
 

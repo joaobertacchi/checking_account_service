@@ -9,8 +9,8 @@
 (defn day_statement [date operations]
   (let [op_stmt (filter operation_statement operations)]
     {
-      :operations op_stmt
-      :date (:date (get op_stmt 0))
+      :date date
+      :operations (map operation_statement op_stmt)
       :balance (Operation/reduce_to_balance operations)
     }
   ))
@@ -20,11 +20,7 @@
     (fn [group]
       (let [date (get group 0)
             operations (get group 1)]
-        (day_statement key operations))) grouped_operations))
-;    grouped_operations)
-;    (for [key (sort (keys grouped_operations))]
-;      (conj sts (day_statement key (get grouped_operations key))))
-;    sts))
+        (day_statement date operations))) grouped_operations))
 
 (defn statement [account_number start_date end_date]
   (let [grouped_operations
