@@ -42,10 +42,9 @@
     (filter (fn [op] (test (:date op))) operations)))
 
 (defn reduce_to_balance
-  "Calculates balance for operations collection"
-  [operations]
-  (reduce +
-    (map :amount operations))
+  "Calculates balance for operations collection and sum up with init_value"
+  ([operations] (reduce + (map :amount operations)))
+  ([operations init_value] (reduce + init_value (map :amount operations)))
   )
 
 (defn balance [account_number]

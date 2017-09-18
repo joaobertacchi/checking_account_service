@@ -16,11 +16,20 @@
   ))
 
 (defn day_statements [grouped_operations]
-  (map 
-    (fn [group]
-      (let [date (get group 0)
-            operations (get group 1)]
-        (day_statement date operations))) grouped_operations))
+  (->>
+    grouped_operations
+    (map 
+      (fn [group]
+        (let [date (get group 0)
+              operations (get group 1)]
+          (day_statement date operations))))
+    (sort-by #(:date %))
+    (reductions
+      (fn ([day_statement1 day_statement2]
+            (assoc day_statement2 :balance (+ (:balance day_statement1) (:balance day_statement2))))
+          ([day_statement1]
+            day_statement1)))
+    ))
 
 (defn statement [account_number start_date end_date]
   (let [grouped_operations
