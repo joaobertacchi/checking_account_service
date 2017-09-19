@@ -31,17 +31,34 @@
             day_statement1)))
     ))
 
-(defn statement [account_number start_date end_date]
-  (let [grouped_operations
-        (group-by :date
-          (->
-            (Operation/all)
-            (Operation/filter_by_account account_number)
-            (Operation/filter_by_interval start_date (t/plus end_date (t/days 1)))
-            ))]
-    {
-      :account_number account_number
-      :start_date start_date
-      :end_date end_date
-      :day_statements (day_statements grouped_operations)
-    }))
+(defn statement
+  ([account_number start_date end_date]
+    (let [grouped_operations
+          (group-by :date
+            (->
+              (Operation/all)
+              (Operation/filter_by_account account_number)
+              (Operation/filter_by_interval start_date (t/plus end_date (t/days 1)))
+              ))]
+      {
+        :account_number account_number
+        :start_date start_date
+        :end_date end_date
+        :day_statements (day_statements grouped_operations)
+      }))
+
+  ([account_number]
+    (let [grouped_operations
+          (group-by :date
+            (->
+              (Operation/all)
+              (Operation/filter_by_account account_number)
+              ))
+          day_statements (day_statements grouped_operations)]
+      {
+        :account_number account_number
+        :start_date (:date (first day_statements))
+        :end_date (:date (last day_statements))
+        :day_statements day_statements
+      }))
+)
