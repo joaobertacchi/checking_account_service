@@ -3,10 +3,21 @@
             [ring.util.http-response :refer :all]
             [schema.core :as s]
             [clj-time.core :as t]
+            [clj-time.format :as f]
+            [cheshire.generate :as generate]
             [checking_account_service.models.operation :as Operation]
             [checking_account_service.models.account :as Account]
             [checking_account_service.models.statement :as Statement]
             [checking_account_service.models.debt :as Debt]))
+
+
+
+(def date-formatter (f/formatters :date))
+
+(generate/add-encoder org.joda.time.DateTime
+                      (fn [data jsonGenerator]
+                        (.writeString jsonGenerator (f/unparse date-formatter data))))
+
 
 (defn positive?
   "Checks if num is positive"
