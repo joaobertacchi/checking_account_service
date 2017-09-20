@@ -8,21 +8,36 @@
             [checking_account_service.models.statement :as Statement]
             [checking_account_service.models.debt :as Debt]))
 
+(defn positive?
+  "Checks if num is positive"
+  [num]
+  (> num 0))
+
+(defn full-date?
+  "Checks if date follows full-date definition - RFC3339"
+  [date]
+  (t/equal? date (t/date-time (t/year date) (t/month date) (t/day date))))
+
+(s/defschema Date
+  (s/constrained org.joda.time.DateTime full-date?))
+
+(s/defschema AccountNumber (s/constrained Long positive?))
+
 (s/defschema OperationIn
   {:description s/Str
   :amount s/Num
-  :date org.joda.time.DateTime})
+  :date Date})
 
 (s/defschema OperationOut
   {:id Long
-  :account_number Long
+  :account_number AccountNumber
   :description s/Str
   :amount s/Num
-  :date org.joda.time.DateTime})
+  :date Date})
 
 (s/defschema Balance
   {
-    :account_number Long
+    :account_number AccountNumber
     :balance s/Num
   })
 
@@ -32,29 +47,29 @@
 
 (s/defschema DayStatement
   {
-    :date org.joda.time.DateTime
+    :date Date
     :operations [OperationStatement]
-    :balance Long
+    :balance s/Num
   })
 
 (s/defschema Statement
   {
-    :account_number Long
-    :start_date org.joda.time.DateTime
-    :end_date org.joda.time.DateTime
+    :account_number AccountNumber
+    :start_date Date
+    :end_date Date
     :day_statements [DayStatement]
   })
 
 (s/defschema Debt
   {
     :principal s/Num
-    :start org.joda.time.DateTime
-    :end (s/maybe org.joda.time.DateTime)
+    :start Date
+    :end (s/maybe Date)
   })
 
 (s/defschema Debts
   {
-    :account_number Long
+    :account_number AccountNumber
     :debts [Debt]
   })
 
@@ -96,7 +111,7 @@
       (context "/accounts" []
 
         (context "/:account_number" []
-          :path-params [account_number :- s/Int]
+          :path-params [account_number :- AccountNumber]
 
           (GET "/balance" []
             :return Balance
@@ -111,7 +126,7 @@
             
           (GET "/statement" []
             :return Statement
-            :query-params [start_date :- org.joda.time.DateTime, end_date :- org.joda.time.DateTime]
+            :query-params [start_date :- Date, end_date :- Date]
             :summary "Returns the bank statement of an account given a period of dates"
             (get-statement-handler account_number start_date end_date))
             
