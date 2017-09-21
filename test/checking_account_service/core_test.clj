@@ -37,7 +37,7 @@
                                 (mock/body  (cheshire/generate-string operation))))
               body     (parse-body (:body response))]
           (is (= (:status response) 400))
-          ;(is (= body (assoc operation :id 1 :account_number 10000)))
+          (is (contains? (:errors body) :account_number))
         )
         ; Possible invalid account_number values
         -1  ; Negative number
