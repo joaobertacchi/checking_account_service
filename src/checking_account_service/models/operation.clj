@@ -19,6 +19,9 @@
 
 (def operations_storage (atom #{}))
 
+(defn reset_storage! []
+  (def operations_storage (atom #{})))
+
 (defn wrapp_operation_id [operation]
   (if (contains? operation :id)
     operation
