@@ -44,6 +44,6 @@
         0   ; Zero
         1.1 ; Float
         "x" ; String
-        ""  ; Empty
+        ;""  ; Empty
         ))
   ))
