@@ -9,13 +9,36 @@
 
 (deftest a-test
 
-  (testing "Test POST request to /api/v1/accounts/:id/operation returns the id of the created operation"
-    (let [operation {:description "Purchase on Amazon"
-                    :amount 3.34
-                    :date "2017-10-16"}
-          response (app (-> (mock/request :post  "/api/v1/accounts/10000/operations")
-                            (mock/content-type "application/json")
-                            (mock/body  (cheshire/generate-string operation))))
-          body     (parse-body (:body response))]
-      (is (= (:status response) 200))
-      (is (= body (assoc operation :id 1 :account_number 10000))))))
+  (testing "POST request to /api/v1/accounts/:id/operation"
+
+    (testing "with valid params"
+      (let [operation {:description "Purchase on Amazon"
+                      :amount 3.34
+                      :date "2017-10-16"}
+            response (app (-> (mock/request :post  "/api/v1/accounts/10000/operations")
+                                (mock/content-type "application/json")
+                                (mock/body  (cheshire/generate-string operation))))
+            body     (parse-body (:body response))]
+        (is (= (:status response) 200))
+        (is (= body (assoc operation :id 1 :account_number 10000)))))
+
+    (testing "with invalid account_number"
+      (are [account_number]
+        (let [operation {:description "Purchase on Amazon"
+                        :amount 3.34
+                        :date "2017-10-16"}
+              response (app (-> (mock/request :post  (str "/api/v1/accounts/" account_number "/operations"))
+                                (mock/content-type "application/json")
+                                (mock/body  (cheshire/generate-string operation))))
+              body     (parse-body (:body response))]
+          (is (= (:status response) 400))
+          ;(is (= body (assoc operation :id 1 :account_number 10000)))
+        )
+        ; Possible invalid account_number values
+        -1  ; Negative number
+        0   ; Zero
+        1.1 ; Float
+        "x" ; String
+        ""  ; Empty
+        ))
+  ))
