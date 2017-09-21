@@ -11,6 +11,10 @@
               [checking_account_service.models.statement :as Statement]
               [checking_account_service.models.debt :as Debt]))
 
+; Add example and default values to swagger interface
+; https://clojurians-log.clojureverse.org/ring-swagger/2016-10-06.html
+; https://github.com/metosin/ring-swagger#example
+
 (def date-formatter (f/formatters :date))
 
 (generate/add-encoder org.joda.time.DateTime
