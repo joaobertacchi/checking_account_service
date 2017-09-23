@@ -3,15 +3,113 @@
             [clojure.test :refer :all]
             [checking_account_service.handler :refer :all]
             [checking_account_service.models.operation :as Operation]
+            [checking_account_service.routes.accounts :as accounts]
             [ring.mock.request :as mock]))
 
 (defn cleanup []
   (Operation/reset_storage!))
 
+(defn create_operations
+  "operations is a list of operation
+
+  operation = {
+    :account_number 1
+    :description \"sample description\"
+    :date \"\"
+    :amount 12.0}]
+    "
+  [operations]
+  (doseq [op operations]
+    (let [account_number (:account_number op)
+          operation (dissoc op :account_number)]
+      (accounts/create-operation-handler account_number operation))))
+
+(defn setup_operations []
+  (let [operations
+    '(
+      {
+        :account_number 1
+        :description "sample description"
+        :date "2017-09-14"
+        :amount 20.0
+      },
+      {
+        :account_number 1
+        :description "sample description"
+        :date "2017-09-14"
+        :amount 120.0
+      },
+      {
+        :account_number 2
+        :description "sample description"
+        :date "2017-09-14"
+        :amount 20.0
+      },
+      {
+        :account_number 2
+        :description "sample description"
+        :date "2017-09-14"
+        :amount -120.0
+      },
+      {
+        :account_number 3
+        :description "sample description"
+        :date "2017-09-14"
+        :amount 20.0
+      },
+      {
+        :account_number 3
+        :description "sample description"
+        :date "2018-09-14"
+        :amount 12.5
+      }
+    )]
+    (create_operations operations)))
+
 (defn parse-body [body]
   (cheshire/parse-string (slurp body) true))
 
-(deftest operation_endpoint
+(deftest balance_route
+  (testing "GET request to /api/v1/accounts/:id/balance")
+    (testing "with valid accounts"
+      (setup_operations)
+      (are [an b]
+        (let [account_number an
+              response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/balance"))
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))
+              balance b]
+          (is (= 200 (:status response)))
+          (is (= { :account_number account_number :balance balance } body)))
+        ;account_number   balance
+        1                 140.0
+        2                 -100.0
+        3                 32.5
+      )
+      (cleanup)
+    )
+    (testing "with invalid account numbers"
+      (setup_operations)
+      (are [an]
+        (let [account_number an
+              response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/balance"))
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))]
+          (is (= 400 (:status response)))
+          (is (contains? (:errors body) :account_number)))
+        ;account_number   balance
+        4 ; Account does not exist
+        -1 ; Negative
+        0 ; Zero
+        "x" ; String
+        1.1 ; Float
+        ;[1] ; Vector
+        ;'("r") ; List
+        ;"" ; Empty string
+      )
+      (cleanup)))
+
+(deftest operation_route
 
   (testing "POST request to /api/v1/accounts/:id/operation"
 
@@ -21,8 +119,8 @@
                         :amount amount
                         :date date}
               response (app (-> (mock/request :post  "/api/v1/accounts/10000/operations")
-                                  (mock/content-type "application/json")
-                                  (mock/body  (cheshire/generate-string operation))))
+                                (mock/content-type "application/json")
+                                (mock/body  (cheshire/generate-string operation))))
               body     (parse-body (:body response))]
           (println (str "Running for description=" description " amount=" amount " date=" date))
           (is (= 200 (:status response)))
@@ -140,3 +238,9 @@
         '(1.1) ; Num List
         ))
   ))
+
+(deftest statements_route
+  )
+
+(deftest debts_route
+  )
