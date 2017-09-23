@@ -113,16 +113,7 @@
       (context "/accounts" []
 
         (context "/:account_number" []
-          :path-params [account_number :- (describe AccountNumber "A positive integer. For GET verbs account must have at least one operation stored." :default 1)]
-
-          (GET "/balance" []
-            :return (describe Balance "A JSON object." :example
-              {
-                :account_number 1
-                :balance 153.3
-              })
-            :summary "Get the current balance for the given checking account"
-            (get-balance-handler account_number))
+          :path-params [account_number :- (describe AccountNumber "A positive integer" :default 1)]
 
           (POST "/operations" []
             :return (describe OperationOut "A JSON object." :example
@@ -147,11 +138,30 @@ Putting operations (deposits, salaries, credits) must have a positive amount val
 
 Taking operations (purchases, withdrawals, debits) must have a negative amount value.
 
-An operation with zero amount value is considered valid.
+An operation with zero amount value is considered valid. You can use any string as an valid operation description.
 
-If an operation for non-existent account is provided, the account will be created using the
-provided account number and the operation will be registered for it."
+If an operation for a non-existent account is provided, the account will be created using the
+provided account number and the operation will be registered for it. Account number must be a positive integer
+otherwise account creation will not be performed and operation registration will fail.
+
+Current date (today) is not used for operation date validation. You are allowed to insert operations that will
+occur in the future."
             (create-operation-handler account_number operation))
+
+          (GET "/balance" []
+            :return (describe Balance "A JSON object." :example
+              {
+                :account_number 1
+                :balance 153.3
+              })
+            :summary "Get the current balance for the given checking account"
+            :description
+"Calculates account balance considering all stored operations for account_number account. Current date is not considered for calculation
+the current balance. If the account has operations that will occur in the future, they will also be considered
+for balance calculation.
+
+If there is no account with the provided account number, an error is returned."
+            (get-balance-handler account_number))
             
           (GET "/statement" []
             :return (describe Statement "A JSON object." :example
