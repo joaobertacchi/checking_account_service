@@ -8,13 +8,11 @@ Follow Leiningen's website instructions to install leiningen in your computer (h
 Clone checking_account_service to your computer:
 `git clone https://github.com/joaobertacchi/checking_account_service.git`
 
-### Run the application locally (open default browser)
-
-`lein ring server`
-
 ### Run the application locally (do not open browser)
 
 `lein ring server-headless`
+
+To open checking account service documentation access http://localhost:3000/doc/v1/index.html
 
 ### Run the tests
 
