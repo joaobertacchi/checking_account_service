@@ -114,14 +114,14 @@
       (context "/accounts" []
 
         (context "/:account_number" []
-          :path-params [account_number :- (describe (rjs/field AccountNumber {:default 1}) "Positive integer. Account must have at least one operation registered.")]
+          :path-params [account_number :- (describe AccountNumber "A positive integer. For GET verbs account must have at least one operation stored." :default 1)]
 
           (GET "/balance" []
-            :return (rjs/field Balance {:example
+            :return (describe Balance "A JSON object." :example
               {
                 :account_number 1
                 :balance 153.3
-              }})
+              })
             :summary "Get the current balance for the given checking account"
             (get-balance-handler account_number))
 
@@ -134,13 +134,24 @@
                 :amount 100.2
                 :date (t/today)
               }})
-            :body [operation (rjs/field OperationIn {:example
+            :body [operation (describe OperationIn "Description must be provided (empty string is ok). Date must comply to format yyyy-mm-dd." :example
               {
                 :description "Purchase on Amazon"
                 :amount 100.2
                 :date (t/today)
-              }})]
+              })]
             :summary "Add an operation to a given checking account"
+            :description "
+Register a new operation for a given checking account.
+
+Putting operations (deposits, salaries, credits) must have a positive amount value.
+
+Taking operations (purchases, withdrawals, debits) must have a negative amount value.
+
+An operation with zero amount value is considered valid.
+
+If an operation for non-existent account is provided, the account will be created using the
+provided account number and the operation will be registered for it."
             (create-operation-handler account_number operation))
             
           (GET "/statement" []
