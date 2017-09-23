@@ -5,7 +5,6 @@
               [clj-time.core :as t]
               [clj-time.format :as f]
               [cheshire.generate :as generate]
-              [ring.swagger.json-schema :as rjs]
               [checking_account_service.models.operation :as Operation]
               [checking_account_service.models.account :as Account]
               [checking_account_service.models.statement :as Statement]
@@ -126,14 +125,14 @@
             (get-balance-handler account_number))
 
           (POST "/operations" []
-            :return (rjs/field OperationOut {:example
+            :return (describe OperationOut "A JSON object." :example
               {
                 :id 3637
                 :account_number 1
                 :description "Purchase on Amazon"
                 :amount 100.2
                 :date (t/today)
-              }})
+              })
             :body [operation (describe OperationIn "Description must be provided (empty string is ok). Date must comply to format yyyy-mm-dd." :example
               {
                 :description "Purchase on Amazon"
@@ -155,7 +154,7 @@ provided account number and the operation will be registered for it."
             (create-operation-handler account_number operation))
             
           (GET "/statement" []
-            :return (rjs/field Statement {:example
+            :return (describe Statement "A JSON object." :example
               {
                 :account_number 1,
                 :start_date (t/today)
@@ -172,14 +171,14 @@ provided account number and the operation will be registered for it."
                     :balance 100.2
                   }
                 ]
-              }})
+              })
             :query-params [start_date :- (describe Date "start date for period using yyyy-mm-dd format. Includes the date in the period."),
                            end_date :- (describe Date "end date for period using yyyy-mm-dd format. Includes the date in the period.")]
             :summary "Returns the bank statement of an account given a period of dates"
             (get-statement-handler account_number start_date end_date))
             
           (GET "/debts" []
-            :return (rjs/field Debts {:example
+            :return (describe Debts "A JSON object." :example
               {
                 :account_number 1
                 :debts [
@@ -189,7 +188,7 @@ provided account number and the operation will be registered for it."
                     :end (t/plus (t/today) (t/days 2))
                   }
                 ]
-              }})
+              })
             :summary "Returns the periods which the account's balance was negative"
             (get-debts-handler account_number))
 

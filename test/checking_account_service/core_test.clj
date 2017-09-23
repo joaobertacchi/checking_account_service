@@ -11,7 +11,7 @@
 (defn parse-body [body]
   (cheshire/parse-string (slurp body) true))
 
-(deftest a-test
+(deftest operation_endpoint
 
   (testing "POST request to /api/v1/accounts/:id/operation"
 
