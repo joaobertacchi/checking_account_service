@@ -1,5 +1,5 @@
 (ns checking_account_service.routes.accounts
-    (:require [compojure.api.sweet :refer [defroutes context GET POST]]
+    (:require [compojure.api.sweet :refer [defroutes context GET POST describe]]
               [ring.util.http-response :refer :all]
               [schema.core :as s]
               [clj-time.core :as t]
@@ -114,7 +114,7 @@
       (context "/accounts" []
 
         (context "/:account_number" []
-          :path-params [account_number :- (rjs/field AccountNumber {:default 1})]
+          :path-params [account_number :- (describe (rjs/field AccountNumber {:default 1}) "Positive integer. Account must have at least one operation registered.")]
 
           (GET "/balance" []
             :return (rjs/field Balance {:example
@@ -162,7 +162,8 @@
                   }
                 ]
               }})
-            :query-params [start_date :- Date, end_date :- Date]
+            :query-params [start_date :- (describe Date "start date for period using yyyy-mm-dd format. Includes the date in the period."),
+                           end_date :- (describe Date "end date for period using yyyy-mm-dd format. Includes the date in the period.")]
             :summary "Returns the bank statement of an account given a period of dates"
             (get-statement-handler account_number start_date end_date))
             
