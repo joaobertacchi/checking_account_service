@@ -6,14 +6,14 @@
 (defn operation_statement [operation]
   (select-keys operation [:description :amount]))
 
-(defn day_statement [date operations]
-  (let [op_stmt (filter operation_statement operations)]
-    {
-      :date date
-      :operations (map operation_statement op_stmt)
-      :balance (Operation/reduce_to_balance operations)
-    }
-  ))
+(defn day_statement
+  "Return a day statement using a date and a sequence of operations"
+  [date operations]
+  {
+    :date date
+    :operations (map operation_statement (sort-by #(:id %) operations)) ; By sorting by :id we respect insertion order
+    :balance (Operation/reduce_to_balance operations)
+  })
 
 (defn day_statements [grouped_operations]
   (->>

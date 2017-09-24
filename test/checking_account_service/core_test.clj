@@ -4,10 +4,19 @@
             [checking_account_service.handler :refer :all]
             [checking_account_service.models.operation :as Operation]
             [checking_account_service.routes.accounts :as accounts]
+            [clj-time.core :as t]
+            [clj-time.format :as f]
             [ring.mock.request :as mock]))
+
+(def date-formatter (f/formatters :date))
 
 (defn cleanup []
   (Operation/reset_storage!))
+
+(defn wrap_date-time
+  "Parses :date string attribute and assigns a date-time object to it."
+  [operation]
+  (assoc operation :date (f/parse date-formatter (:date operation))))
 
 (defn create_operations
   "operations is a list of operation
@@ -22,11 +31,11 @@
   (doseq [op operations]
     (let [account_number (:account_number op)
           operation (dissoc op :account_number)]
-      (accounts/create-operation-handler account_number operation))))
+      (accounts/create-operation-handler account_number (wrap_date-time operation)))))
 
 (defn setup_operations []
   (let [operations
-    '(
+    [
       {
         :account_number 1
         :description "sample description"
@@ -62,8 +71,44 @@
         :description "sample description"
         :date "2018-09-14"
         :amount 12.5
+      },
+      {
+        :account_number 4
+        :description "sample description"
+        :date "2018-09-01"
+        :amount 20.0
+      },
+      {
+        :account_number 4
+        :description "sample description"
+        :date "2018-09-02"
+        :amount 100.0
+      },
+      {
+        :account_number 4
+        :description "sample description"
+        :date "2018-09-02"
+        :amount -100.0
+      },
+      {
+        :account_number 4
+        :description "sample description"
+        :date "2018-09-15"
+        :amount 1000.0
+      },
+      {
+        :account_number 4
+        :description "sample description"
+        :date "2018-09-15"
+        :amount -150.0
+      },
+      {
+        :account_number 4
+        :description "sample description"
+        :date "2018-09-30"
+        :amount 12.5
       }
-    )]
+    ]]
     (create_operations operations)))
 
 (defn parse-body [body]
@@ -98,7 +143,7 @@
           (is (= 400 (:status response)))
           (is (contains? (:errors body) :account_number)))
         ;account_number   balance
-        4 ; Account does not exist
+        100000000000 ; Account does not exist
         -1 ; Negative
         0 ; Zero
         "x" ; String
@@ -240,7 +285,84 @@
   ))
 
 (deftest statements_route
-  )
+  (testing "GET request to /api/v1/accounts/:id/statement"
+    (testing "with period with no operation")
+
+    (testing "with valid accounts"
+      (setup_operations)
+      (are [account_number start_date end_date]
+        (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=" start_date "&end_date=" end_date)
+              response (app (-> (mock/request :get path)
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))
+              ]
+          (println "Request=" path)
+          (is (= 200 (:status response)))
+          (is (=
+                {
+                  :account_number 4
+                  :start_date "2018-09-01"
+                  :end_date "2018-09-30"
+                  :day_statements [
+                    {
+                      :date "2018-09-01"
+                      :operations [
+                        {
+                          :description "sample description"
+                          :amount 20.0
+                        }
+                      ]
+                      :balance 20.0
+                    },
+                    {
+                      :date "2018-09-02"
+                      :operations [
+                        {
+                          :description "sample description"
+                          :amount 100.0
+                        },
+                        {
+                          :description "sample description"
+                          :amount -100.0
+                        }
+                      ]
+                      :balance 20.0
+                    },
+                    {
+                      :date "2018-09-15"
+                      :operations [
+                        {
+                          :description "sample description"
+                          :amount 1000.0
+                        },
+                        {
+                          :description "sample description"
+                          :amount -150.0
+                        }
+                      ]
+                      :balance 870.0
+                    },
+                    {
+                      :date "2018-09-30"
+                      :operations [
+                        {
+                          :description "sample description"
+                          :amount 12.5
+                        }
+                      ]
+                      :balance 882.5
+                    }
+                  ]
+                }
+                body))
+          )
+        ;account_number   start_date    end_date
+        4                 "2018-09-01"  "2018-09-30"
+      )
+      (cleanup)
+    )
+    (testing "with invalid account numbers")
+  ))
 
 (deftest debts_route
   )
