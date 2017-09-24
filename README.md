@@ -3,12 +3,16 @@
 Checking account service is a REST API for bank checking account manipulation. It was developed using clojure
 programing language and [compojure-api](https://github.com/metosin/compojure-api) library.
 
-The service supports storing banking operations, fetching checking account balance, creating account statetement
-for a given period and calculating periods of negative balance (for interest calculation).
+The service has four (4) endpoints:
+1. **/accounts/:id/operations** for storing banking operations
+1. **/accounts/:id/balance** for fetching checking account balance
+1. **/accounts/:id/statement** for creating account statetement
+1. **/accounts/:id/debts** for calculating debts periods and balance (usefull for interest calculation).
 
 Current version stores all operations in memory. If you restart the service all stored operations will be lost.
 
-This microservice was developed as an exercise for learning Clojure language and its usage in web development.
+This microservice was developed as a solution for an exercise. It helped me to learn Clojure language and how to
+use it for web development.
 A broader description of the exercise can be found
 [here](https://github.com/joaobertacchi/checking_account_service/blob/master/exercise.txt)
 
@@ -20,23 +24,39 @@ instructions to install it (https://leiningen.org/#install).
 ### Get checking_account_service repo ###
 
 You also need to clone checking_account_service repo into your computer:
-`git clone https://github.com/joaobertacchi/checking_account_service.git`
+```bash
+git clone https://github.com/joaobertacchi/checking_account_service.git
+```
 
 ### Run the application locally (do not open browser)
 
 Once you got Leiningen installed and checking account service repo downloaded, go to repo's dir and start the
 service:
 
-`cd checking_account_service`
-`lein ring server-headless`
+```bash
+cd checking_account_service
+lein ring server-headless
+```
 
 To open checking account service documentation access http://localhost:3000/doc/v1/index.html
 
-### Run the tests
+## Tests
+All the tests were created using clojure.test lib.
 
-`lein test`
+### Run the tests
+To run the tests, just run the following:
+```bash
+lein test
+```
 
 ### Run the tests during development for TDD (Mac OS)
+During development it's useful to keep tests always running. Doing so will help you to figure out if
+some change you are working on affects previously developed code. It's also very helpful if you intend
+to follow TDD (test driven development) guidelines. In the methodology you first need to create a test
+the code you intend to work on. As the code is still not working, this test will fail. Then your goal
+is to develop just enogh code to make the test PASS.
+
+#### Use Mac OS's notification subsystem for reporting tests status
 Create /usr/local/bin/notify
 ```bash
 #!/bin/bash
@@ -58,8 +78,10 @@ Add some TDD configurations to ~/.lein/profiles.clj:
 ; Ref.: https://apple.stackexchange.com/questions/57412/how-can-i-trigger-a-notification-center-notification-from-an-applescript-or-shel
 ````
 
-Run autotest:
+#### Run autotest
 `lein test-refresh`
+
+## Packaging
 
 ### Packaging and running as standalone jar
 
