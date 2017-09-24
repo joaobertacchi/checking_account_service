@@ -19,26 +19,30 @@
   "grouped_operations is a map returned by (group-by :date operations)
   Return a sequence of day_statement ordered by date"
   [grouped_operations]
-  (->>
-    grouped_operations
+  (if-not (empty? grouped_operations)
+    (->>
+      grouped_operations
 
-    ; Create a day_statement for each day
-    (map 
-      (fn [group]
-        (let [date (get group 0)
-              operations (get group 1)]
-          (day_statement date operations))))
+      ; Create a day_statement for each day
+      (map 
+        (fn [group]
+          (let [date (get group 0)
+                operations (get group 1)]
+            (day_statement date operations))))
 
-    ; Sort day_statements by date
-    (sort-by #(:date %))
+      ; Sort day_statements by date
+      (sort-by #(:date %))
 
-    ; Sum up balances. Each day balance must add last day balance
-    (reductions
-      (fn ([day_statement1 day_statement2]
-            (assoc day_statement2 :balance (+ (:balance day_statement1) (:balance day_statement2))))
-          ([day_statement1]
-            day_statement1)))
-    ))
+      ; Sum up balances. Each day balance must add last day balance
+      (reductions
+        (fn ([day_statement1 day_statement2]
+              (assoc day_statement2 :balance (+ (:balance day_statement1) (:balance day_statement2))))
+            ([day_statement1]
+              day_statement1)))
+    )
+    [] ; Return empty Vector if groupded_operations is empty
+  )
+)
 
 (defn statement
   ([account_number start_date end_date] ; Return statement for the period start_date to end_date
@@ -63,11 +67,11 @@
               (Operation/all)
               (Operation/filter_by_account account_number)
               ))
-          day_statements (day_statements grouped_operations)]
+          ds (day_statements grouped_operations)]
       {
         :account_number account_number
-        :start_date (:date (first day_statements))
-        :end_date (:date (last day_statements))
-        :day_statements day_statements
+        :start_date (:date (first ds))
+        :end_date (:date (last ds))
+        :day_statements ds
       }))
 )

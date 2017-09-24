@@ -290,74 +290,122 @@
 
     (testing "with valid accounts"
       (setup_operations)
-      (are [account_number start_date end_date]
+      (are [account_number start_date end_date statement]
         (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=" start_date "&end_date=" end_date)
               response (app (-> (mock/request :get path)
                                 (mock/content-type "application/json")))
               body     (parse-body (:body response))
               ]
-          (println "Request=" path)
           (is (= 200 (:status response)))
-          (is (=
-                {
-                  :account_number 4
-                  :start_date "2018-09-01"
-                  :end_date "2018-09-30"
-                  :day_statements [
-                    {
-                      :date "2018-09-01"
-                      :operations [
-                        {
-                          :description "sample description"
-                          :amount 20.0
-                        }
-                      ]
-                      :balance 20.0
-                    },
-                    {
-                      :date "2018-09-02"
-                      :operations [
-                        {
-                          :description "sample description"
-                          :amount 100.0
-                        },
-                        {
-                          :description "sample description"
-                          :amount -100.0
-                        }
-                      ]
-                      :balance 20.0
-                    },
-                    {
-                      :date "2018-09-15"
-                      :operations [
-                        {
-                          :description "sample description"
-                          :amount 1000.0
-                        },
-                        {
-                          :description "sample description"
-                          :amount -150.0
-                        }
-                      ]
-                      :balance 870.0
-                    },
-                    {
-                      :date "2018-09-30"
-                      :operations [
-                        {
-                          :description "sample description"
-                          :amount 12.5
-                        }
-                      ]
-                      :balance 882.5
-                    }
-                  ]
-                }
-                body))
+          (is (= statement body))
           )
+
+        ; Test case: Period includes all operations
         ;account_number   start_date    end_date
         4                 "2018-09-01"  "2018-09-30"
+        ;expected statement
+        {
+          :account_number 4
+          :start_date "2018-09-01"
+          :end_date "2018-09-30"
+          :day_statements [
+            {
+              :date "2018-09-01"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount 20.0
+                }
+              ]
+              :balance 20.0
+            },
+            {
+              :date "2018-09-02"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount 100.0
+                },
+                {
+                  :description "sample description"
+                  :amount -100.0
+                }
+              ]
+              :balance 20.0
+            },
+            {
+              :date "2018-09-15"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount 1000.0
+                },
+                {
+                  :description "sample description"
+                  :amount -150.0
+                }
+              ]
+              :balance 870.0
+            },
+            {
+              :date "2018-09-30"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount 12.5
+                }
+              ]
+              :balance 882.5
+            }
+          ]
+        }
+
+        ; Test case: Period includes no operation
+        ;account_number   start_date    end_date
+        4                 "2017-09-01"  "2017-09-30"
+        ;expected statement
+        {
+          :account_number 4
+          :start_date "2017-09-01"
+          :end_date "2017-09-30"
+          :day_statements []
+        }
+
+        ; Test case: Period includes some operations
+        ;account_number   start_date    end_date
+        4                 "2017-09-01"  "2018-09-02"
+        ;expected statement
+        {
+          :account_number 4
+          :start_date "2017-09-01"
+          :end_date "2018-09-02"
+          :day_statements [
+            {
+              :date "2018-09-01"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount 20.0
+                }
+              ]
+              :balance 20.0
+            },
+            {
+              :date "2018-09-02"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount 100.0
+                },
+                {
+                  :description "sample description"
+                  :amount -100.0
+                }
+              ]
+              :balance 20.0
+            }
+          ]
+        }
       )
       (cleanup)
     )
