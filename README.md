@@ -8,7 +8,7 @@ for a given period and calculating periods of negative balance (for interest cal
 
 Current version stores all operations in memory. If you restart the service all stored operations will be lost.
 
-This microservice was developed as an exercise for learning Clojure language and its usage for we development.
+This microservice was developed as an exercise for learning Clojure language and its usage in web development.
 A broader description of the exercise can be found
 [here](https://github.com/joaobertacchi/checking_account_service/blob/master/exercise.txt)
 
