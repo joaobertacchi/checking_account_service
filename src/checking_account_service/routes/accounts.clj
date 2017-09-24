@@ -134,9 +134,9 @@
             :description "
 Register a new operation for a given checking account.
 
-Putting operations (deposits, salaries, credits) must have a positive amount value.
+Putting operations (deposits, salaries, credits) must have a **positive** amount value.
 
-Taking operations (purchases, withdrawals, debits) must have a negative amount value.
+Taking operations (purchases, withdrawals, debits) must have a **negative** amount value.
 
 An operation with zero amount value is considered valid. You can use any string as an valid operation description.
 

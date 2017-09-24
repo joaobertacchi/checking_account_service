@@ -1,15 +1,33 @@
 # checking_account_service
 
-FIXME
+Checking account service is a REST API for bank checking account manipulation. It was developed using clojure
+programing language and [compojure-api](https://github.com/metosin/compojure-api) library.
+
+The service supports storing banking operations, fetching checking account balance, creating account statetement
+for a given period and calculating periods of negative balance (for interest calculation).
+
+Current version stores all operations in memory. If you restart the service all stored operations will be lost.
+
+This microservice was developed as an exercise for learning Clojure language and its usage for we development.
+A broader description of the exercise can be found
+[here](https://github.com/joaobertacchi/checking_account_service/blob/master/exercise.txt)
 
 ## Usage
 
-Follow Leiningen's website instructions to install leiningen in your computer (https://leiningen.org/#install).
-Clone checking_account_service to your computer:
+To use this service, first you must get Leiningen installed in your computer. Follow Leiningen's website
+instructions to install it (https://leiningen.org/#install).
+
+### Get checking_account_service repo ###
+
+You also need to clone checking_account_service repo into your computer:
 `git clone https://github.com/joaobertacchi/checking_account_service.git`
 
 ### Run the application locally (do not open browser)
 
+Once you got Leiningen installed and checking account service repo downloaded, go to repo's dir and start the
+service:
+
+`cd checking_account_service`
 `lein ring server-headless`
 
 To open checking account service documentation access http://localhost:3000/doc/v1/index.html
@@ -56,4 +74,4 @@ java -jar target/server.jar
 
 ## License
 
-Copyleft © GNU GPL
+Copyright © 2017 João Eduardo F. Bertacchi
