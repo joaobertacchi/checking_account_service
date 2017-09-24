@@ -107,6 +107,78 @@
         :description "sample description"
         :date "2018-09-30"
         :amount 12.5
+      },
+      {
+        :account_number 5
+        :description "sample description"
+        :date "2018-09-15"
+        :amount -150.0
+      },
+      {
+        :account_number 5
+        :description "sample description"
+        :date "2018-09-30"
+        :amount 300.0
+      },
+      {
+        :account_number 6
+        :description "sample description"
+        :date "2018-09-15"
+        :amount -150.0
+      },
+      {
+        :account_number 6
+        :description "sample description"
+        :date "2018-09-16"
+        :amount 300.0
+      },
+      {
+        :account_number 6
+        :description "sample description"
+        :date "2018-09-20"
+        :amount -1000.0
+      },
+      {
+        :account_number 6
+        :description "sample description"
+        :date "2018-09-23"
+        :amount 1000.0
+      },
+      {
+        :account_number 6
+        :description "sample description"
+        :date "2018-09-30"
+        :amount -300.0
+      },
+      {
+        :account_number 7
+        :description "sample description"
+        :date "2018-09-15"
+        :amount -150.0
+      },
+      {
+        :account_number 7
+        :description "sample description"
+        :date "2018-09-16"
+        :amount -300.0
+      },
+      {
+        :account_number 7
+        :description "sample description"
+        :date "2018-09-17"
+        :amount -1000.0
+      },
+      {
+        :account_number 7
+        :description "sample description"
+        :date "2018-09-17"
+        :amount 1000.0
+      },
+      {
+        :account_number 7
+        :description "sample description"
+        :date "2018-09-19"
+        :amount -300.0
       }
     ]]
     (create_operations operations)))
@@ -466,10 +538,166 @@
             }
           ]
         }
+
+        ; Test case: Period includes all operations (complex)
+        ;account_number   start_date    end_date
+        7                 "2018-09-15"  "2018-09-19"
+        ;expected statement
+        {
+          :account_number 7
+          :start_date "2018-09-15"
+          :end_date "2018-09-19"
+          :day_statements [
+            {
+              :date "2018-09-15"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount -150.0
+                }
+              ]
+              :balance -150.0
+            },
+            {
+              :date "2018-09-16"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount -300.0
+                }
+              ]
+              :balance -450.0
+            },
+            {
+              :date "2018-09-17"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount -1000.0
+                },
+                {
+                  :description "sample description"
+                  :amount 1000.0
+                }
+              ]
+              :balance -450.0
+            },
+            {
+              :date "2018-09-19"
+              :operations [
+                {
+                  :description "sample description"
+                  :amount -300.0
+                }
+              ]
+              :balance -750.0
+            }
+          ]
+        }
       )
       (cleanup)
     )
   ))
 
 (deftest debts_route
+  (testing "GET request to /api/v1/accounts/:id/debts"
+    (testing "with valid debts"
+      (setup_operations)
+      (are [account_number debt]
+        (let [path (str "/api/v1/accounts/" account_number "/debts")
+              response (app (-> (mock/request :get path)
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))
+              ]
+          (is (= 200 (:status response)))
+          (is (= debt body)))
+
+        ; Not debt
+        ;account_number
+        1
+        ;debt
+        {
+          :account_number 1
+          :debts []
+        }
+
+        ; Sigle period open debt
+        ;account_number
+        2
+        ;debt
+        {
+          :account_number 2
+          :debts [
+            {
+              :principal -100.0
+              :start "2017-09-14"
+            }
+          ]
+        }
+
+        ; Sigle period closed debt
+        ;account_number
+        5
+        ;debt
+        {
+          :account_number 5
+          :debts [
+            {
+              :principal -150.0
+              :start "2018-09-15"
+              :end "2018-09-29"
+            }
+          ]
+        }
+
+        ; Multiple periods debts
+        ;account_number
+        6
+        ;debt
+        {
+          :account_number 6
+          :debts [
+            {
+              :principal -150.0
+              :start "2018-09-15"
+              :end "2018-09-15"
+            },
+            {
+              :principal -850.0
+              :start "2018-09-20"
+              :end "2018-09-22"
+            },
+            {
+              :principal -150.0
+              :start "2018-09-30"
+            }
+          ]
+        }
+
+        ; Multiple periods changing debts
+        ;account_number
+        7
+        ;debt
+        {
+          :account_number 7
+          :debts [
+            {
+              :principal -150.0
+              :start "2018-09-15"
+              :end "2018-09-15"
+            },
+            {
+              :principal -450.0
+              :start "2018-09-16"
+              :end "2018-09-18"
+            },
+            {
+              :principal -750.0
+              :start "2018-09-19"
+            }
+          ]
+        }
+      )
+      (cleanup))
   )
+)

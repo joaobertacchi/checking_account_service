@@ -77,7 +77,7 @@
   {
     :principal s/Num
     :start Date
-    :end (s/maybe Date)
+    (s/optional-key :end) Date
   })
 
 (s/defschema Debts
@@ -185,6 +185,12 @@ If there is no account with the provided account number, an error is returned."
             :query-params [start_date :- (describe Date "start date for period using yyyy-mm-dd format. Includes the date in the period."),
                            end_date :- (describe Date "end date for period using yyyy-mm-dd format. Includes the date in the period.")]
             :summary "Returns the bank statement of an account given a period of dates"
+            :description "
+Returns the bank statement for a given account and period.
+
+Statement is grouped by dates. For each date with one or more trasactions, date's balance and operations are presented.
+
+If an invalid account_number is provided, a error is returned. If start_date is later than end_date, an empty statement is returned."
             (get-statement-handler account_number start_date end_date))
             
           (GET "/debts" []
@@ -200,6 +206,9 @@ If there is no account with the provided account number, an error is returned."
                 ]
               })
             :summary "Returns the periods which the account's balance was negative"
+            :description "
+Returns a sequence of debts periods and associated principal values. Principal is always a negative value.
+If a debt period is not finished, the end date will contain null."
             (get-debts-handler account_number))
 
           ))
