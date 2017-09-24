@@ -7,7 +7,7 @@
   (select-keys operation [:description :amount]))
 
 (defn day_statement
-  "Return a day statement using a date and a sequence of operations"
+  "Create and return a day statement using date and operations"
   [date operations]
   {
     :date date

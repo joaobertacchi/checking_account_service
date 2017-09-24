@@ -47,10 +47,13 @@ In order to open it:
 - access http://localhost:3000/doc/v1/index.html using your browser
 
 ### Codox for functions
-You can also generate programming documentation
+You can also generate programming documentation. To do so, run:
+
 ```bash
 lein codox
 ```
+
+This will generate API documentation in the "target/doc" subdirectory.
 
 ## Tests
 All the tests were created using clojure.test lib.
