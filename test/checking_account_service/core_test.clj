@@ -220,8 +220,6 @@
         0 ; Zero
         "x" ; String
         1.1 ; Float
-        ;[1] ; Vector
-        ;'("r") ; List
         ;"" ; Empty string
       )
       (cleanup)))
@@ -386,7 +384,7 @@
                                 (mock/content-type "application/json")))
               body     (parse-body (:body response))
               ]
-          (is (= 400 (:status response)))
+          (is (= 400 (:status response)) "response code")
           (if start_error
             (is (contains? (:errors body) :start_date))
             true)
@@ -417,8 +415,8 @@
                                 (mock/content-type "application/json")))
               body     (parse-body (:body response))
               ]
-          (is (= 200 (:status response)))
-          (is (= statement body))
+          (is (= 200 (:status response)) "response code")
+          (is (= statement body) (str "statement for account " account_number " from " start_date " to " end_date))
           )
 
         ; Test case: Period includes all operations
@@ -609,8 +607,8 @@
                                 (mock/content-type "application/json")))
               body     (parse-body (:body response))
               ]
-          (is (= 200 (:status response)))
-          (is (= debt body)))
+          (is (= 200 (:status response)) "response code")
+          (is (= debt body) (str "debts periods for account " account_number)))
 
         ; Not debt
         ;account_number
@@ -697,6 +695,24 @@
             }
           ]
         }
+      )
+      (cleanup))
+
+    (testing "with invalid account numbers"
+      (setup_operations)
+      (are [account_number]
+        (let [response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/debts"))
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))]
+          (is (= 400 (:status response)))
+          (is (contains? (:errors body) :account_number)))
+        ;account_number
+        100000000000 ; Account does not exist
+        -1 ; Negative
+        0 ; Zero
+        "x" ; String
+        1.1 ; Float
+        ;"" ; Empty string
       )
       (cleanup))
   )
