@@ -38,7 +38,19 @@ cd checking_account_service
 lein ring server-headless
 ```
 
-To open checking account service documentation access http://localhost:3000/doc/v1/index.html
+## Documentation
+
+### Swagger for REST API
+The checking account service generates pretty Swagger documentation for its REST API.
+In order to open it:
+- start the application as explained above
+- access http://localhost:3000/doc/v1/index.html using your browser
+
+### Codox for functions
+You can also generate programming documentation
+```bash
+lein codox
+```
 
 ## Tests
 All the tests were created using clojure.test lib.
@@ -63,8 +75,10 @@ Create /usr/local/bin/notify
 /usr/bin/osascript -e "display notification \"$*\" with title \"Tests\""
 ```
 
-Add exec permission:
-`chmod +x /usr/bin/notify`
+Add exec permission
+```bash
+chmod +x /usr/bin/notify
+```
 
 Add some TDD configurations to ~/.lein/profiles.clj:
 ```clojure
@@ -76,23 +90,31 @@ Add some TDD configurations to ~/.lein/profiles.clj:
                        :quiet true
                        :changes-only true}}}
 ; Ref.: https://apple.stackexchange.com/questions/57412/how-can-i-trigger-a-notification-center-notification-from-an-applescript-or-shel
-````
+```
 
 #### Run autotest
-`lein test-refresh`
+Run the following in the terminal to start autotest environment
+
+```bash
+lein test-refresh
+```
+
+As soon as a file is changed in the dir, tests are run automatically. The PASS/FAIL result will be shown in
+as a Mac OS notification. To further investigate an eventual problem, check your terminal!
 
 ## Packaging
 
 ### Packaging and running as standalone jar
 
-```
+```bash
 lein do clean, ring uberjar
 java -jar target/server.jar
 ```
 
 ### Packaging as war
-
-`lein ring uberwar`
+```bash
+lein ring uberwar
+```
 
 ## License
 
