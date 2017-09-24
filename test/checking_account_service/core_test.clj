@@ -270,7 +270,7 @@
           (is (contains? (:errors body) :date))
           (cleanup)
         )
-        ; Possible invalid description values
+        ; Possible invalid date values
         ""  ; Empty string
         "A" ; String is not a date
         "2017-09-40" ; String is not a valid date
@@ -286,9 +286,58 @@
 
 (deftest statements_route
   (testing "GET request to /api/v1/accounts/:id/statement"
-    (testing "with period with no operation")
+    (testing "with invalid account number"
+      (setup_operations)
+      (are [account_number]
+        (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=2017-01-01&end_date=2017-01-30")
+              response (app (-> (mock/request :get path)
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))
+              ]
+          (is (= 400 (:status response)))
+          (is (contains? (:errors body) :account_number))
+          )
+          ; Possible invalid account_number values
+          -1  ; Negative number
+          0   ; Zero
+          1.1 ; Float
+          "x" ; String
+          ;""  ; Empty
+      )
+      (cleanup))
 
-    (testing "with valid accounts"
+    (testing "with invalid period"
+      (setup_operations)
+      (are [start_date end_date start_error end_error]
+        (let [path (str "/api/v1/accounts/4/statement?start_date=" start_date "&end_date=" end_date)
+              response (app (-> (mock/request :get path)
+                                (mock/content-type "application/json")))
+              body     (parse-body (:body response))
+              ]
+          (is (= 400 (:status response)))
+          (if start_error
+            (is (contains? (:errors body) :start_date))
+            true)
+          (if end_error
+            (is (contains? (:errors body) :end_date))
+            true)
+          )
+          ; Possible invalid start_date and end_date values
+          ; start_date  end_date      start_error end_error
+          ""            "2017-09-01"  true        false     ; Empty string
+          "A"           "2017-09-01"  true        false     ; String is not a date
+          "2017-09-40"  "2017-09-01"  true        false     ; String is not a valid date
+          "2017-13-01"  "2017-09-01"  true        false     ; String is not a valid date
+          "2017-0901"   "2017-09-01"  true        false     ; String is not a well formed date (contains invalid month and no day)
+          1.2           "2017-09-01"  true        false     ; Number
+          "[a]"         "2017-09-01"  true        false     ; String Vector
+          [1]           "2017-09-01"  true        false     ; Num Vector
+          "(a)"         "2017-09-01"  true        false     ; String List
+          '(1.1)        "2017-09-01"  true        false     ; Num List
+      )
+      (cleanup))
+
+    (testing "with valid input data"
       (setup_operations)
       (are [account_number start_date end_date statement]
         (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=" start_date "&end_date=" end_date)
@@ -409,7 +458,6 @@
       )
       (cleanup)
     )
-    (testing "with invalid account numbers")
   ))
 
 (deftest debts_route
