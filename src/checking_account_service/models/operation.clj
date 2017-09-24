@@ -39,9 +39,14 @@
   "Filter the operations collection by date interval"
   [operations start_date end_date]
   (let [test
-        (fn [x]
-          (t/within? (t/interval start_date end_date)
-          x))]
+        (if (t/after? start_date end_date) ; For start_date later than end_date, consider empty interval
+          (fn [x]
+            (t/within? (t/interval start_date start_date)
+                      x))
+          (fn [x]
+            (t/within? (t/interval start_date end_date)
+                      x))
+          )]
     (filter (fn [op] (test (:date op))) operations)))
 
 (defn reduce_to_balance

@@ -409,6 +409,17 @@
           ]
         }
 
+        ; Test case: Period has start_date latter than end_date
+        ;account_number   start_date    end_date
+        4                 "2018-09-30"  "2018-09-01"
+        ;expected statement (no operation is found!)
+        {
+          :account_number 4
+          :start_date "2018-09-30"
+          :end_date "2018-09-01"
+          :day_statements []
+        }
+
         ; Test case: Period includes no operation
         ;account_number   start_date    end_date
         4                 "2017-09-01"  "2017-09-30"
