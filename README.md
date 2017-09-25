@@ -19,7 +19,7 @@ A broader description of the exercise can be found
 ## Usage
 
 To use this service, first you must get Leiningen installed in your computer. Follow Leiningen's website
-instructions to install it (https://leiningen.org/#install).
+[install instructions](https://leiningen.org/#install).
 
 ### Get checking_account_service repo ###
 
