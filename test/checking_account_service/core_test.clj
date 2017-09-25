@@ -35,152 +35,102 @@
 
 (defn setup_operations []
   (let [operations
-    [
-      {
-        :account_number 1
-        :description "sample description"
-        :date "2017-09-14"
-        :amount 20.0
-      },
-      {
-        :account_number 1
-        :description "sample description"
-        :date "2017-09-14"
-        :amount 120.0
-      },
-      {
-        :account_number 2
-        :description "sample description"
-        :date "2017-09-14"
-        :amount 20.0
-      },
-      {
-        :account_number 2
-        :description "sample description"
-        :date "2017-09-14"
-        :amount -120.0
-      },
-      {
-        :account_number 3
-        :description "sample description"
-        :date "2017-09-14"
-        :amount 20.0
-      },
-      {
-        :account_number 3
-        :description "sample description"
-        :date "2018-09-14"
-        :amount 12.5
-      },
-      {
-        :account_number 4
-        :description "sample description"
-        :date "2018-09-01"
-        :amount 20.0
-      },
-      {
-        :account_number 4
-        :description "sample description"
-        :date "2018-09-02"
-        :amount 100.0
-      },
-      {
-        :account_number 4
-        :description "sample description"
-        :date "2018-09-02"
-        :amount -100.0
-      },
-      {
-        :account_number 4
-        :description "sample description"
-        :date "2018-09-15"
-        :amount 1000.0
-      },
-      {
-        :account_number 4
-        :description "sample description"
-        :date "2018-09-15"
-        :amount -150.0
-      },
-      {
-        :account_number 4
-        :description "sample description"
-        :date "2018-09-30"
-        :amount 12.5
-      },
-      {
-        :account_number 5
-        :description "sample description"
-        :date "2018-09-15"
-        :amount -150.0
-      },
-      {
-        :account_number 5
-        :description "sample description"
-        :date "2018-09-30"
-        :amount 300.0
-      },
-      {
-        :account_number 6
-        :description "sample description"
-        :date "2018-09-15"
-        :amount -150.0
-      },
-      {
-        :account_number 6
-        :description "sample description"
-        :date "2018-09-16"
-        :amount 300.0
-      },
-      {
-        :account_number 6
-        :description "sample description"
-        :date "2018-09-20"
-        :amount -1000.0
-      },
-      {
-        :account_number 6
-        :description "sample description"
-        :date "2018-09-23"
-        :amount 1000.0
-      },
-      {
-        :account_number 6
-        :description "sample description"
-        :date "2018-09-30"
-        :amount -300.0
-      },
-      {
-        :account_number 7
-        :description "sample description"
-        :date "2018-09-15"
-        :amount -150.0
-      },
-      {
-        :account_number 7
-        :description "sample description"
-        :date "2018-09-16"
-        :amount -300.0
-      },
-      {
-        :account_number 7
-        :description "sample description"
-        :date "2018-09-17"
-        :amount -1000.0
-      },
-      {
-        :account_number 7
-        :description "sample description"
-        :date "2018-09-17"
-        :amount 1000.0
-      },
-      {
-        :account_number 7
-        :description "sample description"
-        :date "2018-09-19"
-        :amount -300.0
-      }
-    ]]
+        [{:account_number 1
+          :description "sample description"
+          :date "2017-09-14"
+          :amount 20.0}
+         {:account_number 1
+          :description "sample description"
+          :date "2017-09-14"
+          :amount 120.0}
+         {:account_number 2
+          :description "sample description"
+          :date "2017-09-14"
+          :amount 20.0}
+         {:account_number 2
+          :description "sample description"
+          :date "2017-09-14"
+          :amount -120.0}
+         {:account_number 3
+          :description "sample description"
+          :date "2017-09-14"
+          :amount 20.0}
+         {:account_number 3
+          :description "sample description"
+          :date "2018-09-14"
+          :amount 12.5}
+         {:account_number 4
+          :description "sample description"
+          :date "2018-09-01"
+          :amount 20.0}
+         {:account_number 4
+          :description "sample description"
+          :date "2018-09-02"
+          :amount 100.0}
+         {:account_number 4
+          :description "sample description"
+          :date "2018-09-02"
+          :amount -100.0}
+         {:account_number 4
+          :description "sample description"
+          :date "2018-09-15"
+          :amount 1000.0}
+         {:account_number 4
+          :description "sample description"
+          :date "2018-09-15"
+          :amount -150.0}
+         {:account_number 4
+          :description "sample description"
+          :date "2018-09-30"
+          :amount 12.5}
+         {:account_number 5
+          :description "sample description"
+          :date "2018-09-15"
+          :amount -150.0}
+         {:account_number 5
+          :description "sample description"
+          :date "2018-09-30"
+          :amount 300.0}
+         {:account_number 6
+          :description "sample description"
+          :date "2018-09-15"
+          :amount -150.0}
+         {:account_number 6
+          :description "sample description"
+          :date "2018-09-16"
+          :amount 300.0}
+         {:account_number 6
+          :description "sample description"
+          :date "2018-09-20"
+          :amount -1000.0}
+         {:account_number 6
+          :description "sample description"
+          :date "2018-09-23"
+          :amount 1000.0}
+         {:account_number 6
+          :description "sample description"
+          :date "2018-09-30"
+          :amount -300.0}
+         {:account_number 7
+          :description "sample description"
+          :date "2018-09-15"
+          :amount -150.0}
+         {:account_number 7
+          :description "sample description"
+          :date "2018-09-16"
+          :amount -300.0}
+         {:account_number 7
+          :description "sample description"
+          :date "2018-09-17"
+          :amount -1000.0}
+         {:account_number 7
+          :description "sample description"
+          :date "2018-09-17"
+          :amount 1000.0}
+         {:account_number 7
+          :description "sample description"
+          :date "2018-09-19"
+          :amount -300.0}]]
     (create_operations operations)))
 
 (defn parse-body [body]
@@ -188,41 +138,39 @@
 
 (deftest balance_route
   (testing "GET request to /api/v1/accounts/:id/balance")
-    (testing "with valid accounts"
-      (setup_operations)
-      (are [an b]
-        (let [account_number an
-              response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/balance"))
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))
-              balance b]
-          (is (= 200 (:status response)))
-          (is (= { :account_number account_number :balance balance } body)))
+  (testing "with valid accounts"
+    (setup_operations)
+    (are [an b]
+         (let [account_number an
+               response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/balance"))
+                                 (mock/content-type "application/json")))
+               body     (parse-body (:body response))
+               balance b]
+           (is (= 200 (:status response)))
+           (is (= {:account_number account_number :balance balance} body)))
         ;account_number   balance
-        1                 140.0
-        2                 -100.0
-        3                 32.5
-      )
-      (cleanup)
-    )
-    (testing "with invalid account numbers"
-      (setup_operations)
-      (are [an]
-        (let [account_number an
-              response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/balance"))
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))]
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :account_number)))
+      1                 140.0
+      2                 -100.0
+      3                 32.5)
+    (cleanup))
+  (testing "with invalid account numbers"
+    (setup_operations)
+    (are [an]
+         (let [account_number an
+               response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/balance"))
+                                 (mock/content-type "application/json")))
+               body     (parse-body (:body response))]
+           (is (= 400 (:status response)))
+           (is (contains? (:errors body) :account_number)))
         ;account_number   balance
-        100000000000 ; Account does not exist
-        -1 ; Negative
-        0 ; Zero
-        "x" ; String
-        1.1 ; Float
+      100000000000 ; Account does not exist
+      -1 ; Negative
+      0 ; Zero
+      "x" ; String
+      1.1 ; Float
         ;"" ; Empty string
-      )
-      (cleanup)))
+)
+    (cleanup)))
 
 (deftest operation_route
 
@@ -230,17 +178,17 @@
 
     (testing "with valid params"
       (are [description amount date parsed_date]
-        (let [operation {:description description
-                        :amount amount
-                        :date date}
-              response (app (-> (mock/request :post  "/api/v1/accounts/10000/operations")
-                                (mock/content-type "application/json")
-                                (mock/body  (cheshire/generate-string operation))))
-              body     (parse-body (:body response))]
-          (println (str "Running for description=" description " amount=" amount " date=" date))
-          (is (= 200 (:status response)))
-          (is (= (assoc operation :id 1 :account_number 10000 :date parsed_date) body))
-          (cleanup))
+           (let [operation {:description description
+                            :amount amount
+                            :date date}
+                 response (app (-> (mock/request :post  "/api/v1/accounts/10000/operations")
+                                   (mock/content-type "application/json")
+                                   (mock/body  (cheshire/generate-string operation))))
+                 body     (parse-body (:body response))]
+             (println (str "Running for description=" description " amount=" amount " date=" date))
+             (is (= 200 (:status response)))
+             (is (= (assoc operation :id 1 :account_number 10000 :date parsed_date) body))
+             (cleanup))
         ;description          amount  input_date    parsed_date
         "Purchase on Amazon"  3.34    "2017-10-1"   "2017-10-01"
         ""                    1       "2017-10-01"  "2017-10-01"
@@ -249,74 +197,70 @@
         "Purchase on Amazon"  -30.8   "2017-10"     "2017-10-01"
         "Purchase on Amazon"  -30.8   "20171001"    "20171001-01-01"; Date contains only year
         "Purchase on Amazon"  -30.8   "201710-01"   "201710-01-01"; Date contains year and month
-      ))
+))
 
     (testing "with invalid account_number"
       (are [account_number]
-        (let [operation {:description "Purchase on Amazon"
-                        :amount 3.34
-                        :date "2017-10-16"}
-              response (app (-> (mock/request :post  (str "/api/v1/accounts/" account_number "/operations"))
-                                (mock/content-type "application/json")
-                                (mock/body  (cheshire/generate-string operation))))
-              body     (parse-body (:body response))]
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :account_number))
-          (cleanup)
-        )
+           (let [operation {:description "Purchase on Amazon"
+                            :amount 3.34
+                            :date "2017-10-16"}
+                 response (app (-> (mock/request :post  (str "/api/v1/accounts/" account_number "/operations"))
+                                   (mock/content-type "application/json")
+                                   (mock/body  (cheshire/generate-string operation))))
+                 body     (parse-body (:body response))]
+             (is (= 400 (:status response)))
+             (is (contains? (:errors body) :account_number))
+             (cleanup))
         ; Possible invalid account_number values
         -1  ; Negative number
         0   ; Zero
         1.1 ; Float
         "x" ; String
         ;""  ; Empty
-        ))
+))
 
     (testing "with invalid description"
       (are [description]
-        (let [operation {:description description
-                        :amount 3.34
-                        :date "2017-10-16"}
-              response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
-                                (mock/content-type "application/json")
-                                (mock/body  (cheshire/generate-string operation))))
-              body     (parse-body (:body response))]
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :description))
-          (cleanup)
-        )
+           (let [operation {:description description
+                            :amount 3.34
+                            :date "2017-10-16"}
+                 response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
+                                   (mock/content-type "application/json")
+                                   (mock/body  (cheshire/generate-string operation))))
+                 body     (parse-body (:body response))]
+             (is (= 400 (:status response)))
+             (is (contains? (:errors body) :description))
+             (cleanup))
         ; Possible invalid description values
         1  ; Int
         1.1 ; Float
         ["a"] ; Vector
         '("a") ; List
-        ))
+))
 
     (testing "with no description"
       (let [operation {:amount 3.34
-                      :date "2017-10-16"}
+                       :date "2017-10-16"}
             response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
                               (mock/content-type "application/json")
                               (mock/body  (cheshire/generate-string operation))))
             body     (parse-body (:body response))]
         (is (= 400 (:status response)))
         (is (contains? (:errors body) :description))
-        (cleanup)
-      ))
+        (cleanup)))
 
     (testing "with invalid amount"
       (are [amount]
-        (let [operation {:description "Purchase on Amazon"
-                        :amount amount
-                        :date "2017-10-16"}
-              response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
-                                (mock/content-type "application/json")
-                                (mock/body  (cheshire/generate-string operation))))
-              body     (parse-body (:body response))]
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :amount))
-          (cleanup)
-        )
+           (let [operation {:description "Purchase on Amazon"
+                            :amount amount
+                            :date "2017-10-16"}
+                 response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
+                                   (mock/content-type "application/json")
+                                   (mock/body  (cheshire/generate-string operation))))
+                 body     (parse-body (:body response))]
+             (is (= 400 (:status response)))
+             (is (contains? (:errors body) :amount))
+             (cleanup))
         ; Possible invalid description values
         ""  ; Empty string
         "A" ; String
@@ -324,22 +268,21 @@
         [1] ; Num Vector
         '("a") ; String List
         '(1.1) ; Num List
-        ))
+))
 
     (testing "with invalid date"
       (are [date]
-        (let [operation {:description "Purchase on Amazon"
-                        :amount 300
-                        :date date}
-              response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
-                                (mock/content-type "application/json")
-                                (mock/body  (cheshire/generate-string operation))))
-              body     (parse-body (:body response))]
-          (println (str "Running for date=" date))
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :date))
-          (cleanup)
-        )
+           (let [operation {:description "Purchase on Amazon"
+                            :amount 300
+                            :date date}
+                 response (app (-> (mock/request :post  (str "/api/v1/accounts/1/operations"))
+                                   (mock/content-type "application/json")
+                                   (mock/body  (cheshire/generate-string operation))))
+                 body     (parse-body (:body response))]
+             (println (str "Running for date=" date))
+             (is (= 400 (:status response)))
+             (is (contains? (:errors body) :date))
+             (cleanup))
         ; Possible invalid date values
         ""  ; Empty string
         "A" ; String is not a date
@@ -351,361 +294,231 @@
         [1] ; Num Vector
         '("a") ; String List
         '(1.1) ; Num List
-        ))
-  ))
+))))
 
 (deftest statements_route
   (testing "GET request to /api/v1/accounts/:id/statement"
     (testing "with invalid account number"
       (setup_operations)
       (are [account_number]
-        (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=2017-01-01&end_date=2017-01-30")
-              response (app (-> (mock/request :get path)
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))
-              ]
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :account_number))
-          )
+           (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=2017-01-01&end_date=2017-01-30")
+                 response (app (-> (mock/request :get path)
+                                   (mock/content-type "application/json")))
+                 body     (parse-body (:body response))]
+             (is (= 400 (:status response)))
+             (is (contains? (:errors body) :account_number)))
           ; Possible invalid account_number values
-          -1  ; Negative number
-          0   ; Zero
-          1.1 ; Float
-          "x" ; String
+        -1  ; Negative number
+        0   ; Zero
+        1.1 ; Float
+        "x" ; String
           ;""  ; Empty
-      )
+)
       (cleanup))
 
     (testing "with invalid period"
       (setup_operations)
       (are [start_date end_date start_error end_error]
-        (let [path (str "/api/v1/accounts/4/statement?start_date=" start_date "&end_date=" end_date)
-              response (app (-> (mock/request :get path)
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))
-              ]
-          (is (= 400 (:status response)) "response code")
-          (if start_error
-            (is (contains? (:errors body) :start_date))
-            true)
-          (if end_error
-            (is (contains? (:errors body) :end_date))
-            true)
-          )
+           (let [path (str "/api/v1/accounts/4/statement?start_date=" start_date "&end_date=" end_date)
+                 response (app (-> (mock/request :get path)
+                                   (mock/content-type "application/json")))
+                 body     (parse-body (:body response))]
+             (is (= 400 (:status response)) "response code")
+             (if start_error
+               (is (contains? (:errors body) :start_date))
+               true)
+             (if end_error
+               (is (contains? (:errors body) :end_date))
+               true))
           ; Possible invalid start_date and end_date values
           ; start_date  end_date      start_error end_error
-          ""            "2017-09-01"  true        false     ; Empty string
-          "A"           "2017-09-01"  true        false     ; String is not a date
-          "2017-09-40"  "2017-09-01"  true        false     ; String is not a valid date
-          "2017-13-01"  "2017-09-01"  true        false     ; String is not a valid date
-          "2017-0901"   "2017-09-01"  true        false     ; String is not a well formed date (contains invalid month and no day)
-          1.2           "2017-09-01"  true        false     ; Number
-          "[a]"         "2017-09-01"  true        false     ; String Vector
-          [1]           "2017-09-01"  true        false     ; Num Vector
-          "(a)"         "2017-09-01"  true        false     ; String List
-          '(1.1)        "2017-09-01"  true        false     ; Num List
-      )
+        ""            "2017-09-01"  true        false     ; Empty string
+        "A"           "2017-09-01"  true        false     ; String is not a date
+        "2017-09-40"  "2017-09-01"  true        false     ; String is not a valid date
+        "2017-13-01"  "2017-09-01"  true        false     ; String is not a valid date
+        "2017-0901"   "2017-09-01"  true        false     ; String is not a well formed date (contains invalid month and no day)
+        1.2           "2017-09-01"  true        false     ; Number
+        "[a]"         "2017-09-01"  true        false     ; String Vector
+        [1]           "2017-09-01"  true        false     ; Num Vector
+        "(a)"         "2017-09-01"  true        false     ; String List
+        '(1.1)        "2017-09-01"  true        false     ; Num List
+)
       (cleanup))
 
     (testing "with valid input data"
       (setup_operations)
       (are [account_number start_date end_date statement]
-        (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=" start_date "&end_date=" end_date)
-              response (app (-> (mock/request :get path)
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))
-              ]
-          (is (= 200 (:status response)) "response code")
-          (is (= statement body) (str "statement for account " account_number " from " start_date " to " end_date))
-          )
+           (let [path (str "/api/v1/accounts/" account_number "/statement?start_date=" start_date "&end_date=" end_date)
+                 response (app (-> (mock/request :get path)
+                                   (mock/content-type "application/json")))
+                 body     (parse-body (:body response))]
+             (is (= 200 (:status response)) "response code")
+             (is (= statement body) (str "statement for account " account_number " from " start_date " to " end_date)))
 
         ; Test case: Period includes all operations
         ;account_number   start_date    end_date
         4                 "2018-09-01"  "2018-09-30"
         ;expected statement
-        {
-          :account_number 4
-          :start_date "2018-09-01"
-          :end_date "2018-09-30"
-          :day_statements [
-            {
-              :date "2018-09-01"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount 20.0
-                }
-              ]
-              :balance 20.0
-            },
-            {
-              :date "2018-09-02"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount 100.0
-                },
-                {
-                  :description "sample description"
-                  :amount -100.0
-                }
-              ]
-              :balance 20.0
-            },
-            {
-              :date "2018-09-15"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount 1000.0
-                },
-                {
-                  :description "sample description"
-                  :amount -150.0
-                }
-              ]
-              :balance 870.0
-            },
-            {
-              :date "2018-09-30"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount 12.5
-                }
-              ]
-              :balance 882.5
-            }
-          ]
-        }
+        {:account_number 4
+         :start_date "2018-09-01"
+         :end_date "2018-09-30"
+         :day_statements [{:date "2018-09-01"
+                           :operations [{:description "sample description"
+                                         :amount 20.0}]
+                           :balance 20.0}
+                          {:date "2018-09-02"
+                           :operations [{:description "sample description"
+                                         :amount 100.0}
+                                        {:description "sample description"
+                                         :amount -100.0}]
+                           :balance 20.0}
+                          {:date "2018-09-15"
+                           :operations [{:description "sample description"
+                                         :amount 1000.0}
+                                        {:description "sample description"
+                                         :amount -150.0}]
+                           :balance 870.0}
+                          {:date "2018-09-30"
+                           :operations [{:description "sample description"
+                                         :amount 12.5}]
+                           :balance 882.5}]}
 
         ; Test case: Period has start_date latter than end_date
         ;account_number   start_date    end_date
         4                 "2018-09-30"  "2018-09-01"
         ;expected statement (no operation is found!)
-        {
-          :account_number 4
-          :start_date "2018-09-30"
-          :end_date "2018-09-01"
-          :day_statements []
-        }
+        {:account_number 4
+         :start_date "2018-09-30"
+         :end_date "2018-09-01"
+         :day_statements []}
 
         ; Test case: Period includes no operation
         ;account_number   start_date    end_date
         4                 "2017-09-01"  "2017-09-30"
         ;expected statement
-        {
-          :account_number 4
-          :start_date "2017-09-01"
-          :end_date "2017-09-30"
-          :day_statements []
-        }
+        {:account_number 4
+         :start_date "2017-09-01"
+         :end_date "2017-09-30"
+         :day_statements []}
 
         ; Test case: Period includes some operations
         ;account_number   start_date    end_date
         4                 "2017-09-01"  "2018-09-02"
         ;expected statement
-        {
-          :account_number 4
-          :start_date "2017-09-01"
-          :end_date "2018-09-02"
-          :day_statements [
-            {
-              :date "2018-09-01"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount 20.0
-                }
-              ]
-              :balance 20.0
-            },
-            {
-              :date "2018-09-02"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount 100.0
-                },
-                {
-                  :description "sample description"
-                  :amount -100.0
-                }
-              ]
-              :balance 20.0
-            }
-          ]
-        }
+        {:account_number 4
+         :start_date "2017-09-01"
+         :end_date "2018-09-02"
+         :day_statements [{:date "2018-09-01"
+                           :operations [{:description "sample description"
+                                         :amount 20.0}]
+                           :balance 20.0}
+                          {:date "2018-09-02"
+                           :operations [{:description "sample description"
+                                         :amount 100.0}
+                                        {:description "sample description"
+                                         :amount -100.0}]
+                           :balance 20.0}]}
 
         ; Test case: Period includes all operations (complex)
         ;account_number   start_date    end_date
         7                 "2018-09-15"  "2018-09-19"
         ;expected statement
-        {
-          :account_number 7
-          :start_date "2018-09-15"
-          :end_date "2018-09-19"
-          :day_statements [
-            {
-              :date "2018-09-15"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount -150.0
-                }
-              ]
-              :balance -150.0
-            },
-            {
-              :date "2018-09-16"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount -300.0
-                }
-              ]
-              :balance -450.0
-            },
-            {
-              :date "2018-09-17"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount -1000.0
-                },
-                {
-                  :description "sample description"
-                  :amount 1000.0
-                }
-              ]
-              :balance -450.0
-            },
-            {
-              :date "2018-09-19"
-              :operations [
-                {
-                  :description "sample description"
-                  :amount -300.0
-                }
-              ]
-              :balance -750.0
-            }
-          ]
-        }
-      )
-      (cleanup)
-    )
-  ))
+        {:account_number 7
+         :start_date "2018-09-15"
+         :end_date "2018-09-19"
+         :day_statements [{:date "2018-09-15"
+                           :operations [{:description "sample description"
+                                         :amount -150.0}]
+                           :balance -150.0}
+                          {:date "2018-09-16"
+                           :operations [{:description "sample description"
+                                         :amount -300.0}]
+                           :balance -450.0}
+                          {:date "2018-09-17"
+                           :operations [{:description "sample description"
+                                         :amount -1000.0}
+                                        {:description "sample description"
+                                         :amount 1000.0}]
+                           :balance -450.0}
+                          {:date "2018-09-19"
+                           :operations [{:description "sample description"
+                                         :amount -300.0}]
+                           :balance -750.0}]})
+      (cleanup))))
 
 (deftest debts_route
   (testing "GET request to /api/v1/accounts/:id/debts"
     (testing "with valid debts"
       (setup_operations)
       (are [account_number debt]
-        (let [path (str "/api/v1/accounts/" account_number "/debts")
-              response (app (-> (mock/request :get path)
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))
-              ]
-          (is (= 200 (:status response)) "response code")
-          (is (= debt body) (str "debts periods for account " account_number)))
+           (let [path (str "/api/v1/accounts/" account_number "/debts")
+                 response (app (-> (mock/request :get path)
+                                   (mock/content-type "application/json")))
+                 body     (parse-body (:body response))]
+             (is (= 200 (:status response)) "response code")
+             (is (= debt body) (str "debts periods for account " account_number)))
 
         ; Not debt
         ;account_number
         1
         ;debt
-        {
-          :account_number 1
-          :debts []
-        }
+        {:account_number 1
+         :debts []}
 
         ; Sigle period open debt
         ;account_number
         2
         ;debt
-        {
-          :account_number 2
-          :debts [
-            {
-              :principal -100.0
-              :start "2017-09-14"
-            }
-          ]
-        }
+        {:account_number 2
+         :debts [{:principal -100.0
+                  :start "2017-09-14"}]}
 
         ; Sigle period closed debt
         ;account_number
         5
         ;debt
-        {
-          :account_number 5
-          :debts [
-            {
-              :principal -150.0
-              :start "2018-09-15"
-              :end "2018-09-29"
-            }
-          ]
-        }
+        {:account_number 5
+         :debts [{:principal -150.0
+                  :start "2018-09-15"
+                  :end "2018-09-29"}]}
 
         ; Multiple periods debts
         ;account_number
         6
         ;debt
-        {
-          :account_number 6
-          :debts [
-            {
-              :principal -150.0
-              :start "2018-09-15"
-              :end "2018-09-15"
-            },
-            {
-              :principal -850.0
-              :start "2018-09-20"
-              :end "2018-09-22"
-            },
-            {
-              :principal -150.0
-              :start "2018-09-30"
-            }
-          ]
-        }
+        {:account_number 6
+         :debts [{:principal -150.0
+                  :start "2018-09-15"
+                  :end "2018-09-15"}
+                 {:principal -850.0
+                  :start "2018-09-20"
+                  :end "2018-09-22"}
+                 {:principal -150.0
+                  :start "2018-09-30"}]}
 
         ; Multiple periods changing debts
         ;account_number
         7
         ;debt
-        {
-          :account_number 7
-          :debts [
-            {
-              :principal -150.0
-              :start "2018-09-15"
-              :end "2018-09-15"
-            },
-            {
-              :principal -450.0
-              :start "2018-09-16"
-              :end "2018-09-18"
-            },
-            {
-              :principal -750.0
-              :start "2018-09-19"
-            }
-          ]
-        }
-      )
+        {:account_number 7
+         :debts [{:principal -150.0
+                  :start "2018-09-15"
+                  :end "2018-09-15"}
+                 {:principal -450.0
+                  :start "2018-09-16"
+                  :end "2018-09-18"}
+                 {:principal -750.0
+                  :start "2018-09-19"}]})
       (cleanup))
 
     (testing "with invalid account numbers"
       (setup_operations)
       (are [account_number]
-        (let [response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/debts"))
-                                (mock/content-type "application/json")))
-              body     (parse-body (:body response))]
-          (is (= 400 (:status response)))
-          (is (contains? (:errors body) :account_number)))
+           (let [response (app (-> (mock/request :get  (str "/api/v1/accounts/" account_number "/debts"))
+                                   (mock/content-type "application/json")))
+                 body     (parse-body (:body response))]
+             (is (= 400 (:status response)))
+             (is (contains? (:errors body) :account_number)))
         ;account_number
         100000000000 ; Account does not exist
         -1 ; Negative
@@ -713,7 +526,5 @@
         "x" ; String
         1.1 ; Float
         ;"" ; Empty string
-      )
-      (cleanup))
-  )
 )
+      (cleanup))))

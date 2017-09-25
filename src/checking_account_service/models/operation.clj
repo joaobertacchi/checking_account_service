@@ -4,7 +4,7 @@
 ;            [clj-time.coerce :as coerce]
 ;            [cheshire.core :refer :all]
 ;            [cheshire.generate :as generate]
-            ))
+))
 
 ;(def date-formatter (f/formatters :date))
 
@@ -42,24 +42,21 @@
         (if (t/after? start_date end_date) ; For start_date later than end_date, consider empty interval
           (fn [x]
             (t/within? (t/interval start_date start_date)
-                      x))
+                       x))
           (fn [x]
             (t/within? (t/interval start_date end_date)
-                      x))
-          )]
+                       x)))]
     (filter (fn [op] (test (:date op))) operations)))
 
 (defn reduce_to_balance
   "Calculates balance for operations collection and sum up with init_value"
   ([operations] (reduce + (map :amount operations)))
-  ([operations init_value] (reduce + init_value (map :amount operations)))
-  )
+  ([operations init_value] (reduce + init_value (map :amount operations))))
 
 (defn balance [account_number]
   (-> @operations_storage
-    (filter_by_account account_number)
-    (reduce_to_balance)
-    ))
+      (filter_by_account account_number)
+      (reduce_to_balance)))
 
 (defn all
   "Return all operations stored in db"
