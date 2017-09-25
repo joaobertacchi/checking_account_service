@@ -38,13 +38,25 @@ cd checking_account_service
 lein ring server-headless
 ```
 
+After that, check REST API documentation (see Documentation section bellow) to learn how to interact with
+checking account service.
+
 ## Documentation
 
-### Swagger for REST API
+### REST API
 The checking account service generates pretty Swagger documentation for its REST API.
-In order to open it:
-- start the application as explained above
-- access http://localhost:3000/doc/v1/index.html using your browser
+In order to access REST API docs you have to:
+1. run the application locally, as explained above
+1. access http://localhost:3000/doc/v1/index.html using your browser
+
+There you can use the browser to test the endpoints by yourself. If you want, you can use curl:
+```bash
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
+   "description": "Purchase on Amazon",
+   "amount": -100.2,
+   "date": "2017-09-25"
+ }' 'http://localhost:3000/api/v1/accounts/1/operations'
+```
 
 ### Codox for functions
 You can also generate programming documentation. To do so, run:
@@ -111,7 +123,7 @@ as a Mac OS notification. To further investigate an eventual problem, check your
 
 ```bash
 lein do clean, ring uberjar
-java -jar target/server.jar
+java -jar target/checking_account_service-0.1.0-standalone.jar
 ```
 
 ### Packaging as war
