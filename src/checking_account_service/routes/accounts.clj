@@ -109,11 +109,11 @@
                           {:id 3637
                            :account_number 1
                            :description "Purchase on Amazon"
-                           :amount 100.2
+                           :amount -100.2
                            :date (t/today)})
         :body [operation (describe OperationIn "Description must be provided (empty string is ok). Date must comply to format yyyy-mm-dd." :example
                                    {:description "Purchase on Amazon"
-                                    :amount 100.2
+                                    :amount -100.2
                                     :date (t/today)})]
         :summary "Add an operation to a given checking account"
         :description "
@@ -153,8 +153,8 @@ If there is no account with the provided account number, an error is returned."
                            :end_date (t/plus (t/today) (t/days 7))
                            :day_statements [{:date (t/today)
                                              :operations [{:description "Purchase on Amazon"
-                                                           :amount 100.2}]
-                                             :balance 100.2}]})
+                                                           :amount -100.2}]
+                                             :balance -100.2}]})
         :query-params [start_date :- (describe Date "start date for period using yyyy-mm-dd format. Includes the date in the period.")
                        end_date :- (describe Date "end date for period using yyyy-mm-dd format. Includes the date in the period.")]
         :summary "Returns the bank statement of an account given a period of dates"
