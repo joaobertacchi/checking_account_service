@@ -59,16 +59,16 @@ This will generate API documentation in the "target/doc" subdirectory.
 All the tests were created using clojure.test lib.
 
 ### Run the tests
-To run the tests, just run the following:
+To run the tests, just do the following:
 ```bash
 lein test
 ```
 
 ### Run the tests during development for TDD (Mac OS)
-During development it's useful to keep tests always running. Doing so will help you to figure out if
+While coding it's useful to keep tests always running. Doing so will help you to figure out if
 some change you are working on affects previously developed code. It's also very helpful if you intend
-to follow TDD (test driven development) guidelines. In the methodology you first need to create a test
-the code you intend to work on. As the code is still not working, this test will fail. Then your goal
+to follow TDD (test driven development) guidelines. In this methodology, you first create a test and later
+the related code. At first, your test will fail until you get a working code. Your goal
 is to develop just enogh code to make the test PASS.
 
 #### Use Mac OS's notification subsystem for reporting tests status
