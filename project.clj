@@ -11,4 +11,5 @@
                                   [pjstadig/humane-test-output "0.8.3"]
                                   [com.jakemccrary/lein-test-refresh "0.21.1"]]
                     :plugins [[lein-ring "0.12.0"]
-                              [lein-codox "0.10.3"]]}})
+                              [lein-codox "0.10.3"]
+                              [lein-cljfmt "0.5.3"]]}})
