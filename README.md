@@ -28,7 +28,7 @@ You also need to clone checking_account_service repo into your computer:
 git clone https://github.com/joaobertacchi/checking_account_service.git
 ```
 
-### Run the application locally (do not open browser)
+### Run the application locally (using Leiningen)
 
 Once you got Leiningen installed and checking account service repo downloaded, go to repo's dir and start the
 service:
@@ -40,6 +40,13 @@ lein ring server-headless
 
 After that, check REST API documentation (see Documentation section bellow) to learn how to interact with
 checking account service.
+
+### Create a container an run the application from it (using Docker)
+
+```bash
+./build-docker-image.sh
+./run-docker-container.sh
+```
 
 ## Documentation
 
