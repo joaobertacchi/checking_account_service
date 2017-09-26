@@ -50,7 +50,7 @@ checking account service.
 
 ## Documentation
 
-### REST API
+### For REST API users
 The checking account service generates pretty Swagger documentation for its REST API.
 In order to access REST API docs you have to:
 1. run the application (using leiningen or docker), as explained above
@@ -65,14 +65,19 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
  }' 'http://localhost:3000/api/v1/accounts/1/operations'
 ```
 
-### Codox for functions
-You can also generate programming documentation. To do so, run:
+### For checking account service maintainers (Codox)
+Checking account service is not intended to be used as a library. Still its project is configured
+to generate documentation using codox just as an example.
+
+If you need to refer to the service documentation, please check _For REST API users_ section.
+
+In order to generate codox documentation, run the comman bellow:
 
 ```bash
 lein codox
 ```
 
-This will generate API documentation in the "target/doc" subdirectory.
+Documentation is generated in the "target/doc" subdirectory as static html.
 
 ## Tests
 All the tests were created using clojure.test lib.
@@ -123,6 +128,15 @@ lein test-refresh
 
 As soon as a file is changed in the dir, tests are run automatically. The PASS/FAIL result will be shown in
 as a Mac OS notification. To further investigate an eventual problem, check your terminal!
+
+### Continuous Integration
+
+[Travis CI](https://travis-ci.org/) is configured to run all the tests whenever a new commit arrives to the
+[this project GitHub repo](https://github.com/joaobertacchi/checking_account_service). Check last commits build
+status at (https://travis-ci.org/joaobertacchi/checking_account_service).
+
+Travis can also be configured to continuous deployment, but at this moment I see no gain for this exercise
+in doing so.
 
 ## Packaging
 
