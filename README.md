@@ -53,7 +53,7 @@ checking account service.
 ### REST API
 The checking account service generates pretty Swagger documentation for its REST API.
 In order to access REST API docs you have to:
-1. run the application locally, as explained above
+1. run the application (using leiningen or docker), as explained above
 1. access http://localhost:3000/doc/v1/index.html using your browser
 
 There you can use the browser to test the endpoints by yourself. If you want, you can use curl:
