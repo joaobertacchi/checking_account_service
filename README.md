@@ -1,19 +1,20 @@
 # checking_account_service
 
-Checking account service is a REST API for bank checking account manipulation. It was developed using clojure
-programing language and [compojure-api](https://github.com/metosin/compojure-api) library.
+Checking account service is a micro-service that provides REST API for viewing and manipulating a
+checking account from a supposed bank. It was developed using clojure programing language and
+[compojure-api](https://github.com/metosin/compojure-api) library.
 
 The service has four (4) endpoints:
-1. **/accounts/:id/operations** for storing banking operations
+1. **/accounts/:id/operations** for registering banking operations
 1. **/accounts/:id/balance** for fetching checking account balance
-1. **/accounts/:id/statement** for creating account statetement
+1. **/accounts/:id/statement** for generating a checking account statetement
 1. **/accounts/:id/debts** for calculating debts periods and balance (usefull for interest calculation).
 
-Current version stores all operations in memory. If you restart the service all stored operations will be lost.
+Current version has an in memory storage for operations managed by atoms using Clojure STM. That means
+if you restart the service all stored operations will be lost.
 
-This microservice was developed as a solution for an exercise. It helped me to learn Clojure language and how to
-use it for web development.
-A broader description of the exercise can be found
+This microservice was developed as a solution for an exercise. It helped me to learn Clojure language and
+how to use it for web development. A broader description of the exercise can be found
 [here](https://github.com/joaobertacchi/checking_account_service/blob/master/exercise.txt)
 
 ## Usage
