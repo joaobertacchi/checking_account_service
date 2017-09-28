@@ -147,6 +147,7 @@
                body     (parse-body (:body response))
                balance b]
            (is (= 200 (:status response)))
+           (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
            (is (= {:account_number account_number :balance balance} body)))
         ;account_number   balance
       1                 140.0
@@ -161,6 +162,7 @@
                                  (mock/content-type "application/json")))
                body     (parse-body (:body response))]
            (is (= 400 (:status response)))
+           (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
            (is (contains? (:errors body) :account_number)))
         ;account_number   balance
       100000000000 ; Account does not exist
@@ -187,6 +189,7 @@
                  body     (parse-body (:body response))]
              (println (str "Running for description=" description " amount=" amount " date=" date))
              (is (= 200 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (= (assoc operation :id 1 :account_number 10000 :date parsed_date) body))
              (cleanup))
         ;description          amount  input_date    parsed_date
@@ -209,6 +212,7 @@
                                    (mock/body  (cheshire/generate-string operation))))
                  body     (parse-body (:body response))]
              (is (= 400 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (contains? (:errors body) :account_number))
              (cleanup))
         ; Possible invalid account_number values
@@ -229,6 +233,7 @@
                                    (mock/body  (cheshire/generate-string operation))))
                  body     (parse-body (:body response))]
              (is (= 400 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (contains? (:errors body) :description))
              (cleanup))
         ; Possible invalid description values
@@ -246,6 +251,7 @@
                               (mock/body  (cheshire/generate-string operation))))
             body     (parse-body (:body response))]
         (is (= 400 (:status response)))
+        (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
         (is (contains? (:errors body) :description))
         (cleanup)))
 
@@ -259,6 +265,7 @@
                                    (mock/body  (cheshire/generate-string operation))))
                  body     (parse-body (:body response))]
              (is (= 400 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (contains? (:errors body) :amount))
              (cleanup))
         ; Possible invalid description values
@@ -281,6 +288,7 @@
                  body     (parse-body (:body response))]
              (println (str "Running for date=" date))
              (is (= 400 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (contains? (:errors body) :date))
              (cleanup))
         ; Possible invalid date values
@@ -306,6 +314,7 @@
                                    (mock/content-type "application/json")))
                  body     (parse-body (:body response))]
              (is (= 400 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (contains? (:errors body) :account_number)))
           ; Possible invalid account_number values
         -1  ; Negative number
@@ -324,6 +333,7 @@
                                    (mock/content-type "application/json")))
                  body     (parse-body (:body response))]
              (is (= 400 (:status response)) "response code")
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (if start_error
                (is (contains? (:errors body) :start_date))
                true)
@@ -353,6 +363,7 @@
                                    (mock/content-type "application/json")))
                  body     (parse-body (:body response))]
              (is (= 200 (:status response)) "response code")
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (= statement body) (str "statement for account " account_number " from " start_date " to " end_date)))
 
         ; Test case: Period includes all operations
@@ -456,6 +467,7 @@
                                    (mock/content-type "application/json")))
                  body     (parse-body (:body response))]
              (is (= 200 (:status response)) "response code")
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (= debt body) (str "debts periods for account " account_number)))
 
         ; Not debt
@@ -518,6 +530,7 @@
                                    (mock/content-type "application/json")))
                  body     (parse-body (:body response))]
              (is (= 400 (:status response)))
+             (is (= (get-in response [:headers "Content-Type"]) "application/json; charset=utf-8"))
              (is (contains? (:errors body) :account_number)))
         ;account_number
         100000000000 ; Account does not exist
