@@ -1,0 +1,5 @@
+POST /api/v1/accounts/1/operations HTTP/1.1
+Host: localhost
+Connection: close
+
+***{"description": "Purchase on Amazon", "amount": -100.2, "date": "2017-09-26"}***

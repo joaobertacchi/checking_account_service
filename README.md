@@ -130,6 +130,31 @@ lein test-refresh
 As soon as a file is changed in the dir, tests are run automatically. The PASS/FAIL result will be shown in
 as a Mac OS notification. To further investigate an eventual problem, check your terminal!
 
+### Fuzzy test
+
+#### Install PyJFAPI
+Get PyJFuzz and PyJFAPI repos:
+```bash
+git clone https://github.com/mseclab/PyJFuzz.git
+git clone https://github.com/dzonerzy/PyJFAPI.git
+```
+
+Install PyJFuzz:
+```bash
+cd PyJFuzz && sudo python setup.py install
+```
+
+#### Run fuzzer
+Start the application as explained above and run the fuzzer passing application's hostname,
+port and a fuzzy template operation.
+
+```bash
+cd PyJFAPI
+python pjfapi.py -H localhost -P 3000 --p 10 --s -T template_operation.json
+```
+
+Fuzzer will run until you kills it using Ctrl^C.
+
 ### Continuous Integration
 
 [Travis CI](https://travis-ci.org/) is configured to run all the tests whenever a new commit arrives to the
